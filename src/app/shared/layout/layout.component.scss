@@ -1,0 +1,21 @@
+$header-height: 70px;
+$footer-height: 70px;
+
+header,
+main,
+footer {
+  width: 100%;
+  overflow: auto;
+}
+
+header {
+  height: $header-height;
+}
+
+main {
+  min-height: calc(100% - $header-height - $footer-height);
+}
+
+footer {
+  height: $footer-height;
+}
