@@ -8,7 +8,18 @@ body {
   overflow-x: hidden;
 }
 
+body,
+a {
+  color: var(--font-color);
+}
+
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+body.mobile {
+  .header-link-container {
+    overflow-x: scroll;
+  }
 }

@@ -1,1 +1,28 @@
-<p>header works!</p>
+<div class="header-content">
+  <div class="logo-container">
+    <img src="assets/images/logo.png" alt="logo">
+  </div>
+  Léo
+  <br>
+  Debove
+</div>
+<div class="header-controls">
+  <cSelect (selectionChange)="setLanguage($event)">
+    <cOption [value]="'en'" [selected]="true">🇬🇧</cOption>
+    <cOption [value]="'fr'">🇫🇷</cOption>
+  </cSelect>
+  <cThemeToggle (toggleChange)="setColorTheme($event)"></cThemeToggle>
+</div>
+<div *ngIf="!mobile" class="header-link-container" appHorizontalScrolling>
+  <div *ngFor="let appLink of appLinks" class="header-link" [routerLinkActive]="'active'">
+    <a [routerLink]="appLink.path">{{ appLink.translationKey | translate }}</a>
+  </div>
+</div>
+<div *ngIf="mobile" class="header-link-container" [ngClass]="{'hidden': !showHeaderLinks}">
+  <div *ngFor="let appLink of appLinks" class="header-link" [routerLinkActive]="'active'">
+    <a [routerLink]="appLink.path" (click)="showHeaderLinks = false">{{ appLink.translationKey | translate }}</a>
+  </div>
+</div>
+<cBurger *ngIf="mobile" class="header-burger" [(checked)]="showHeaderLinks"></cBurger>
+
+

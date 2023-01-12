@@ -10,12 +10,15 @@ footer {
 
 header {
   height: $header-height;
+  background-color: var(--color-1);
 }
 
 main {
   min-height: calc(100% - $header-height - $footer-height);
+  background-color: var(--color-3);
 }
 
 footer {
   height: $footer-height;
+  background-color: var(--color-1);
 }
