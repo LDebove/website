@@ -1,3 +1,6 @@
 {
-
+  "APPS": {
+    "HOME": "Home",
+    "IMAGE-EDITOR": "Image editor"
+  }
 }

@@ -1,0 +1,191 @@
+/* theme-toggle component */
+.custom-theme-switch {
+  --night-color: #000000;
+  --day-color: #000000;
+  --color: #fff000;
+  --size-multiplier: 0.6;
+
+  font-size: 17px;
+  position: relative;
+  display: inline-block;
+  width: calc(var(--size-multiplier) * 3.5em);
+  height: calc(var(--size-multiplier) * 2em);
+
+  input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+}
+
+.custom-theme-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--night-color);
+  transition: .5s;
+  border-radius: 30px;
+}
+
+.custom-theme-slider:before {
+  position: absolute;
+  content: "";
+  width: calc(var(--size-multiplier) * 1.4em);
+  height: calc(var(--size-multiplier) * 1.4em);
+  border-radius: 50%;
+  left: 10%;
+  bottom: 15%;
+  box-shadow: inset calc(var(--size-multiplier) * 8px) calc(var(--size-multiplier) * -4px) 0px 0px var(--color);
+  background: var(--night-color);
+  transition: .5s;
+}
+
+input:checked + .custom-theme-slider {
+  background-color: var(--day-color);
+}
+
+input:checked + .custom-theme-slider:before {
+  transform: translateX(100%);
+  box-shadow: inset 15px -4px 0px 15px var(--color);
+}
+
+
+/* toggle component */
+.custom-switch {
+  --button-width: 2.5em;
+  --button-height: 1.4em;
+  --toggle-diameter: 1em;
+  --button-toggle-offset: calc((var(--button-height) - var(--toggle-diameter)) / 2);
+  --toggle-shadow-offset: 10px;
+  --toggle-wider: 2.1em;
+  --color-grey: #cccccc;
+  --color-green: #4296f4;
+
+  input[type="checkbox"]:checked + .custom-slider {
+    background-color: var(--color-green);
+  }
+
+  input[type="checkbox"]:checked + .custom-slider::after {
+    transform: translateX(calc(var(--button-width) - var(--toggle-diameter) - var(--button-toggle-offset)));
+    box-shadow: calc(var(--toggle-shadow-offset) * -1) 0 calc(var(--toggle-shadow-offset) * 4) rgba(0, 0, 0, 0.1);
+  }
+
+  input[type="checkbox"] {
+    display: none;
+  }
+
+  input[type="checkbox"]:active + .custom-slider::after {
+    width: var(--toggle-wider);
+  }
+
+  input[type="checkbox"]:checked:active + .custom-slider::after {
+    transform: translateX(calc(var(--button-width) - var(--toggle-wider) - var(--button-toggle-offset)));
+  }
+}
+
+.custom-slider {
+  display: inline-block;
+  width: var(--button-width);
+  height: var(--button-height);
+  background-color: var(--color-grey);
+  border-radius: calc(var(--button-height) / 2);
+  position: relative;
+  transition: 0.3s all ease-in-out;
+  cursor: pointer;
+}
+
+.custom-slider::after {
+  content: "";
+  display: inline-block;
+  width: var(--toggle-diameter);
+  height: var(--toggle-diameter);
+  background-color: #fff;
+  border-radius: calc(var(--toggle-diameter) / 2);
+  position: absolute;
+  top: var(--button-toggle-offset);
+  transform: translateX(var(--button-toggle-offset));
+  box-shadow: var(--toggle-shadow-offset) 0 calc(var(--toggle-shadow-offset) * 4) rgba(0, 0, 0, 0.1);
+  transition: 0.3s all ease-in-out;
+}
+
+
+/* select component */
+.custom-select {
+  select {
+    max-width: 100%;
+    border: 1px solid var(--highlight-color);
+    padding: 2px 5px;
+    margin: 0;
+    border-radius: 3px;
+    background-color: var(--color-3);
+    color: var(--font-color);
+    cursor: pointer;
+  }
+}
+
+
+/* burger component */
+.custom-burger {
+  --size-multiplier: 0.66;
+
+  display: flex;
+  position: relative;
+  width: calc(var(--size-multiplier) * 40px);
+  height: calc(var(--size-multiplier) * 30px);
+  background: transparent;
+  cursor: pointer;
+
+  input {
+    display: none;
+  }
+
+  span {
+    display: block;
+    position: absolute;
+    height: calc(var(--size-multiplier) * 3px);
+    width: 100%;
+    background: var(--font-color);
+    border-radius: 9px;
+    opacity: 1;
+    left: 0;
+    transform: rotate(0deg);
+    transition: .25s ease-in-out;
+  }
+
+  span:nth-of-type(1) {
+    top: 0;
+    transform-origin: left center;
+  }
+
+  span:nth-of-type(2) {
+    top: 50%;
+    transform: translateY(-50%);
+    transform-origin: left center;
+  }
+
+  span:nth-of-type(3) {
+    top: 100%;
+    transform-origin: left center;
+    transform: translateY(-100%);
+  }
+
+  input:checked ~ span:nth-of-type(1) {
+    transform: rotate(45deg);
+    top: 0;
+    left: calc(var(--size-multiplier) * 5px);
+  }
+
+  input:checked ~ span:nth-of-type(2) {
+    width: 0;
+    opacity: 0;
+  }
+
+  input:checked ~ span:nth-of-type(3) {
+    transform: rotate(-45deg);
+    top: calc(var(--size-multiplier) * 28px);
+    left: calc(var(--size-multiplier) * 5px);
+  }
+}

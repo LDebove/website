@@ -1,0 +1,12 @@
+{
+  "color-1": "#212121",
+  "color-2": "#313131",
+  "color-3": "#414141",
+  "color-4": "#515151",
+  "color-5": "#CA3E47",
+  "font-color": "#FFFFFF",
+  "horizontal-gradient": "linear-gradient(90deg,#525252 0%,#414141 40%,#313131 70%,#CA3E47 100%)",
+  "vertical-gradient": "linear-gradient(0deg,#525252 0%,#414141 40%,#313131 70%,#CA3E47 100%)",
+  "highlight-color": "#FFFFFF1F",
+  "overlay-color": "#0000001F"
+}
