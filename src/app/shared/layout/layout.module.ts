@@ -6,13 +6,15 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { LayoutComponent } from './layout.component';
 import { SharedModule } from '../shared.module';
+import { ScrollIndicatorDirective } from './header/scroll-indicator.directive';
 
 
 @NgModule({
   declarations: [
     HeaderComponent,
     FooterComponent,
-    LayoutComponent
+    LayoutComponent,
+    ScrollIndicatorDirective
   ],
   imports: [
     CommonModule,

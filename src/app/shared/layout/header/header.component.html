@@ -13,7 +13,7 @@
   </cSelect>
   <cThemeToggle (toggleChange)="setColorTheme($event)"></cThemeToggle>
 </div>
-<div *ngIf="!mobile" class="header-link-container" appHorizontalScrolling>
+<div *ngIf="!mobile" class="header-link-container" appHorizontalScrolling appScrollIndicator>
   <div *ngFor="let appLink of appLinks" class="header-link" [routerLinkActive]="'active'">
     <a [routerLink]="appLink.path">{{ appLink.translationKey | translate }}</a>
   </div>

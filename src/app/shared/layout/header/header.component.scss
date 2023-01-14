@@ -71,6 +71,14 @@
     background-color: var(--color-4);
   }
 
+  .header-link-container.left {
+    border-right: 3px solid var(--color-5);
+  }
+
+  .header-link-container.right {
+    border-left: 3px solid var(--color-5);
+  }
+
   .header-link {
     width: 200px;
     height: 100%;
@@ -138,12 +146,12 @@
 
 .header-link-container {
   .header-link:hover {
-    background-color: var(--highlight-color);
+    background-color: var(--highlight-color-1);
   }
 
   .header-link.active {
     font-weight: 800;
-    background-color: var(--highlight-color);
+    background-color: var(--highlight-color-2);
   }
 }
 
