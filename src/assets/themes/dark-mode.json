@@ -7,6 +7,7 @@
   "font-color": "#FFFFFF",
   "horizontal-gradient": "linear-gradient(90deg,#525252 0%,#414141 40%,#313131 70%,#CA3E47 100%)",
   "vertical-gradient": "linear-gradient(0deg,#525252 0%,#414141 40%,#313131 70%,#CA3E47 100%)",
-  "highlight-color": "#FFFFFF1F",
+  "highlight-color-1": "#FFFFFF0F",
+  "highlight-color-2": "#FFFFFF1F",
   "overlay-color": "#0000001F"
 }
