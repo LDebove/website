@@ -11,7 +11,7 @@ export class OptionComponent implements AfterViewInit {
   @Input('value') value: any = undefined;
   @Input('selected') selected: boolean = false;
 
-  @Output() selectionChange: EventEmitter<any> = new EventEmitter<any>();
+  @Output() selectionChange = new EventEmitter<any>();
 
   constructor(private element: ElementRef) { }
 

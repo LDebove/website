@@ -9,5 +9,9 @@
   "vertical-gradient": "linear-gradient(0deg,#525252 0%,#414141 40%,#313131 70%,#CA3E47 100%)",
   "highlight-color-1": "#FFFFFF0F",
   "highlight-color-2": "#FFFFFF1F",
-  "overlay-color": "#0000001F"
+  "contrast-color": "#FFFFFF2F",
+  "tinted-color": "#FFFFFFA0",
+  "overlay-color": "#0000001F",
+  "error-color": "#FF0000",
+  "important-color": "#C00000"
 }

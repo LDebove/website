@@ -1,3 +1,7 @@
+:host.hidden {
+  display: none;
+}
+
 /* theme-toggle component */
 .custom-theme-switch {
   --night-color: #000000;
@@ -116,11 +120,11 @@ input:checked + .custom-theme-slider:before {
 .custom-select {
   select {
     max-width: 100%;
-    border: 1px solid var(--highlight-color);
+    border: 1px solid var(--highlight-color-1);
     padding: 2px 5px;
     margin: 0;
     border-radius: 3px;
-    background-color: var(--color-3);
+    background-color: var(--contrast-color);
     color: var(--font-color);
     cursor: pointer;
   }
@@ -188,4 +192,148 @@ input:checked + .custom-theme-slider:before {
     top: calc(var(--size-multiplier) * 28px);
     left: calc(var(--size-multiplier) * 5px);
   }
+}
+
+
+/* input component */
+.custom-input-group {
+  display: flex;
+  flex-direction: column;
+
+  .custom-input-label-group {
+    display: flex;
+    width: 100%;
+    white-space: nowrap;
+    font-weight: bold;
+    font-size: 15px;
+
+    .custom-input-label {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .custom-input-required {
+      flex-shrink: 0;
+      color: var(--important-color);
+    }
+  }
+
+  .custom-input {
+    width: 100%;
+    min-width: 50px;
+    padding: 2px 5px;
+    border-radius: 5px;
+    border: 1px solid var(--highlight-color-1);
+    box-sizing: border-box;
+    outline: 0;
+    background-color: var(--contrast-color);
+    color: var(--font-color);
+  }
+
+  .custom-input::placeholder {
+    color: var(--tinted-color);
+  }
+
+  .custom-input:focus,
+  .custom-input:hover {
+    border: 1px solid var(--highlight-color-2);
+  }
+
+  .custom-input:disabled {
+    color: var(--tinted-color);
+    cursor: not-allowed;
+  }
+
+  .custom-input:invalid {
+    border: 1px solid var(--error-color);
+  }
+}
+
+
+/* checkbox component */
+.custom-checkbox-container {
+  display: flex;
+  width: 100%;
+  gap: 5px;
+
+  .custom-checkbox {
+    display: block;
+    width: 25px;
+    height: 25px;
+    border-radius: 5px;
+    margin: 0;
+    border: 0;
+    outline: 0;
+    accent-color: var(--color-5);
+    cursor: pointer;
+    flex: 0 0 25px;
+  }
+
+  .custom-checkbox:checked {
+    animation: check 0.5s;
+  }
+
+  .custom-checkbox-label {
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+
+    span {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+
+  @keyframes check {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.9); }
+    100% { transform: scale(1); }
+  }
+}
+
+
+/* button component */
+.custom-button {
+  display: flex;
+  width: 100%;
+  min-height: 25px;
+  padding: 0 5px;
+  border: 1px solid var(--highlight-color-1);
+  margin: 0;
+  box-sizing: border-box;
+  border-radius: 5px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-color: var(--contrast-color);
+  color: var(--font-color);
+  text-transform: uppercase;
+  font-weight: bold;
+
+  span {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+
+.custom-button:hover {
+  border: 1px solid var(--highlight-color-2);
+}
+
+.custom-button.green {
+  border: 1px solid #00D419;
+  background-color: #00D419A0;
+  color: #FFFFFF;
+}
+.custom-button.orange {
+  border: 1px solid #FF7110;
+  background-color: #FF7110A0;
+  color: #FFFFFF;
+}
+.custom-button.red {
+  border: 1px solid #FF1616;
+  background-color: #FF1616A0;
+  color: #FFFFFF;
 }

@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
   selector: 'cToggle',
@@ -11,8 +11,8 @@ import { Component, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./elements.scss']
 })
 export class ToggleComponent {
-  @Output() toggleChange: EventEmitter<boolean> = new EventEmitter<boolean>();
-  checked: boolean = false;
+  @Output() toggleChange = new EventEmitter<boolean>();
+  @Input('checked') checked: boolean = false;
 
   onChange(): void {
     this.toggleChange.emit(this.checked);

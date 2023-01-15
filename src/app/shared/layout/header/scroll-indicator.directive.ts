@@ -1,11 +1,15 @@
-import { Directive, ElementRef, HostListener } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, HostListener } from '@angular/core';
 
 @Directive({
   selector: '[appScrollIndicator]'
 })
-export class ScrollIndicatorDirective {
+export class ScrollIndicatorDirective implements AfterViewInit {
 
   constructor(private element: ElementRef) { }
+
+  ngAfterViewInit(): void {
+    this.addScrollIndicators();
+  }
 
   @HostListener('scroll') onScroll(): void {
     this.addScrollIndicators();

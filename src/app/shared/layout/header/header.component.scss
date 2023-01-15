@@ -67,7 +67,6 @@
     background-color: var(--color-2);
   }
   .header-link-container::-webkit-scrollbar-thumb {
-    border-radius: 4px;
     background-color: var(--color-4);
   }
 
@@ -153,6 +152,10 @@
     font-weight: 800;
     background-color: var(--highlight-color-2);
   }
+}
+
+.header-link-container.mobile {
+  overflow-x: scroll;
 }
 
 

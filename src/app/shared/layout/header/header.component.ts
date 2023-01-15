@@ -1,6 +1,7 @@
 import { AfterContentInit, Component, HostListener } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { UserAgentService } from 'src/app/services/user-agent.service';
 
 @Component({
   selector: 'app-header',
@@ -24,28 +25,30 @@ export class HeaderComponent implements OnInit, AfterContentInit {
     { translationKey: 'APPS.IMAGE-EDITOR', path: '/image-editor' },
     { translationKey: 'APPS.IMAGE-EDITOR', path: '/image-editor' },
   ];
-  mobile: boolean = false;
+  mobileDisplay: boolean = false;
+  mobileUa: boolean = false;
   showHeaderLinks: boolean = false;
 
   @HostListener('window:resize') onResize(): void {
     if(document.documentElement.clientWidth < 501) {
-      this.mobile = true;
+      this.mobileDisplay = true;
     } else {
-      this.mobile = false;
+      this.mobileDisplay = false;
     }
   }
 
-  constructor(private translate: TranslateService) { }
+  constructor(private translate: TranslateService, private ua: UserAgentService) { }
 
   ngOnInit(): void {
+    this.mobileUa = this.ua.isMobile();
     this.setColorTheme(false);
   }
 
   ngAfterContentInit(): void {
     if(document.documentElement.clientWidth < 501) {
-      this.mobile = true;
+      this.mobileDisplay = true;
     } else {
-      this.mobile = false;
+      this.mobileDisplay = false;
     }
   }
 

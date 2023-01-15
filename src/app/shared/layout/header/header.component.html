@@ -13,16 +13,16 @@
   </cSelect>
   <cThemeToggle (toggleChange)="setColorTheme($event)"></cThemeToggle>
 </div>
-<div *ngIf="!mobile" class="header-link-container" appHorizontalScrolling appScrollIndicator>
+<div *ngIf="!mobileDisplay" class="header-link-container" [ngClass]="{'mobile': mobileUa}" appHorizontalScrolling appScrollIndicator>
   <div *ngFor="let appLink of appLinks" class="header-link" [routerLinkActive]="'active'">
     <a [routerLink]="appLink.path">{{ appLink.translationKey | translate }}</a>
   </div>
 </div>
-<div *ngIf="mobile" class="header-link-container" [ngClass]="{'hidden': !showHeaderLinks}">
+<div *ngIf="mobileDisplay" class="header-link-container" [ngClass]="{'hidden': !showHeaderLinks, 'mobile': mobileUa}">
   <div *ngFor="let appLink of appLinks" class="header-link" [routerLinkActive]="'active'">
     <a [routerLink]="appLink.path" (click)="showHeaderLinks = false">{{ appLink.translationKey | translate }}</a>
   </div>
 </div>
-<cBurger *ngIf="mobile" class="header-burger" [(checked)]="showHeaderLinks"></cBurger>
+<cBurger *ngIf="mobileDisplay" class="header-burger" [(checked)]="showHeaderLinks"></cBurger>
 
 
