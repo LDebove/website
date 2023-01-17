@@ -1,6 +1,7 @@
 import { AfterContentInit, Component, HostListener } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { ThemeService } from 'src/app/services/theme.service';
 import { UserAgentService } from 'src/app/services/user-agent.service';
 
 @Component({
@@ -12,18 +13,8 @@ export class HeaderComponent implements OnInit, AfterContentInit {
   appLinks: any = [
     { translationKey: 'APPS.HOME', path: '/home' },
     { translationKey: 'APPS.IMAGE-EDITOR', path: '/image-editor' },
-    { translationKey: 'APPS.IMAGE-EDITOR', path: '/image-editor' },
-    { translationKey: 'APPS.IMAGE-EDITOR', path: '/image-editor' },
-    { translationKey: 'APPS.IMAGE-EDITOR', path: '/image-editor' },
-    { translationKey: 'APPS.IMAGE-EDITOR', path: '/image-editor' },
-    { translationKey: 'APPS.IMAGE-EDITOR', path: '/image-editor' },
-    { translationKey: 'APPS.IMAGE-EDITOR', path: '/image-editor' },
-    { translationKey: 'APPS.IMAGE-EDITOR', path: '/image-editor' },
-    { translationKey: 'APPS.IMAGE-EDITOR', path: '/image-editor' },
-    { translationKey: 'APPS.IMAGE-EDITOR', path: '/image-editor' },
-    { translationKey: 'APPS.IMAGE-EDITOR', path: '/image-editor' },
-    { translationKey: 'APPS.IMAGE-EDITOR', path: '/image-editor' },
-    { translationKey: 'APPS.IMAGE-EDITOR', path: '/image-editor' },
+    { translationKey: 'APPS.TWW3-RANDOM-LORD', path: '/tww3-random-lord' },
+    { translationKey: 'APPS.TERRARIA-PIXELART', path: '/terraria-pixelart' },
   ];
   mobileDisplay: boolean = false;
   mobileUa: boolean = false;
@@ -37,7 +28,7 @@ export class HeaderComponent implements OnInit, AfterContentInit {
     }
   }
 
-  constructor(private translate: TranslateService, private ua: UserAgentService) { }
+  constructor(private translate: TranslateService, private ua: UserAgentService, private theme: ThemeService) { }
 
   ngOnInit(): void {
     this.mobileUa = this.ua.isMobile();
@@ -58,15 +49,7 @@ export class HeaderComponent implements OnInit, AfterContentInit {
    * TODO set a cookie to store theme preferences
    */
   setColorTheme(lightMode: boolean): void {
-    let themeSelected: any;
-    if(lightMode) {
-      themeSelected = require('src/assets/themes/light-mode.json');
-    } else {
-      themeSelected = require('src/assets/themes/dark-mode.json');
-    }
-    Object.keys(themeSelected).forEach(key => {
-      document.documentElement.style.setProperty(`--${key}`, themeSelected[key]);
-    });
+    this.theme.setColorTheme(lightMode);
   }
 
   /**

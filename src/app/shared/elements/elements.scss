@@ -337,3 +337,13 @@ input:checked + .custom-theme-slider:before {
   background-color: #FF1616A0;
   color: #FFFFFF;
 }
+
+.custom-button:focus {
+  animation: click 0.5s;
+}
+
+@keyframes click {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}

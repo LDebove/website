@@ -29,15 +29,10 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ## TODO
 
 components:
-- hint (help)
-- checkbox
-- table
+- hint (help) (component)
+- tooltip (directive)
+- table (component)
   - stepper
-- drag & drop
-- input
-  - text
-    - autocomplete
-  - number
-  - file
-- dialog
-- snackbar
+- drag & drop (directive)
+- dialog (component)
+- snackbar (component)
