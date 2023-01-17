@@ -1,1 +1,24 @@
-<p>footer works!</p>
+<div class="footer-link-container">
+  <div class="footer-link">
+    <a href="https://github.com/LDebove">
+      <img [ngClass]="{'hidden': !lightMode}" src="assets/images/github-mark.png" target="_blank"/>
+      <img [ngClass]="{'hidden': lightMode}" src="assets/images/github-mark-white.png" target="_blank"/>
+    </a>
+  </div>
+  <div class="footer-link">
+    <a href="https://www.linkedin.com/in/leo-debove/">
+      <img [ngClass]="{'dark-mode': !lightMode}" src="assets/images/linkedin.png" target="_blank"/>
+    </a>
+  </div>
+  <div class="footer-link">
+    <a href="mailto:me@leodebove.com">
+      <img [ngClass]="{'dark-mode': !lightMode}" src="assets/images/email.png" target="_blank"/>
+    </a>
+  </div>
+  <div class="footer-link">
+    <a href="">
+      <img [ngClass]="{'dark-mode': !lightMode}" src="assets/images/cv.png" target="_blank"/>
+    </a>
+  </div>
+</div>
+<cInput [type]="'password'"></cInput>

@@ -1,13 +1,17 @@
 {
-  "color-1": "#FBFBFB",
-  "color-2": "#F7F7F7",
-  "color-3": "#F2F2F2",
-  "color-4": "#EFEFEF",
+  "color-1": "#FEFEFE",
+  "color-2": "#EFEFEF",
+  "color-3": "#E7E7E7",
+  "color-4": "#E1E1E1",
   "color-5": "#CA3E47",
   "font-color": "#000000",
   "horizontal-gradient": "linear-gradient(90deg,#FBFBFB 0%,#B9E1DC 40%,#CA3E47 70%,#756C83 100%)",
   "vertical-gradient": "linear-gradient(0deg,#FBFBFB 0%,#B9E1DC 40%,#CA3E47 70%,#756C83 100%)",
   "highlight-color-1": "#0000000F",
   "highlight-color-2": "#0000001F",
-  "overlay-color": "#0000001F"
+  "contrast-color": "#0000001A",
+  "tinted-color": "#000000A0",
+  "overlay-color": "#0000001F",
+  "error-color": "#FF0000",
+  "important-color": "#C00000"
 }

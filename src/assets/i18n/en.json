@@ -1,6 +1,20 @@
 {
   "APPS": {
     "HOME": "Home",
-    "IMAGE-EDITOR": "Image editor"
+    "IMAGE-EDITOR": "Image editor",
+    "TWW3-RANDOM-LORD": "TWW3 random lord",
+    "TERRARIA-PIXELART": "Terraria pixelart"
+  },
+  "HOME": {
+    "CONCEPT": {
+      "TITLE": "The concept",
+      "TEXT": "This website is under open-source license, the link to the GitHub repository is available below. The applications on this website are intended to meet various technical or non-technical needs, to demonstrate skills, and especially to save time.",
+      "REPOSITORY": "GitHub repository"
+    },
+    "DEVELOPER": {
+      "TITLE": "The developer",
+      "TEXT-PART-1": "I am an information engineering student who enjoys web development as much as software development. I love starting new projects that are too ambitious for me to ever see through.",
+      "TEXT-PART-2": "May this website not be one of them..."
+    }
   }
 }

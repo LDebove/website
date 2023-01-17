@@ -10,6 +10,9 @@ import { FormsModule } from '@angular/forms';
 import { SelectComponent } from './elements/select.component';
 import { OptionComponent } from './elements/option.component';
 import { BurgerComponent } from './elements/burger.component';
+import { InputComponent } from './elements/input.component';
+import { CheckboxComponent } from './elements/checkbox.component';
+import { ButtonComponent } from './elements/button.component';
 
 
 
@@ -22,7 +25,10 @@ import { BurgerComponent } from './elements/burger.component';
     ThemeToggleComponent,
     SelectComponent,
     OptionComponent,
-    BurgerComponent
+    BurgerComponent,
+    InputComponent,
+    CheckboxComponent,
+    ButtonComponent
   ],
   imports: [
     CommonModule,
@@ -38,7 +44,10 @@ import { BurgerComponent } from './elements/burger.component';
     ThemeToggleComponent,
     SelectComponent,
     OptionComponent,
-    BurgerComponent
+    BurgerComponent,
+    InputComponent,
+    CheckboxComponent,
+    ButtonComponent
   ]
 })
 export class SharedModule { }
