@@ -5,7 +5,7 @@ import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, O
   template: `
     <div class="custom-input-group" [ngClass]="{'hidden': type === 'hidden'}">
       <div class="custom-input-label-group">
-        <label *ngIf="label !== ''" class="custom-input-label" #label>
+        <label *ngIf="label !== ''" class="custom-input-label" #labelElement>
           {{ label }}
         </label>
         <span *ngIf="required" class="custom-input-required">&nbsp;*</span>
@@ -14,7 +14,7 @@ import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, O
       [type]="type" [disabled]="disabled" [value]="value" [placeholder]="placeholder"
       [min]="min ? min : ''" [max]="max ? max : ''" [pattern]="pattern ? pattern : '.*'"
       [accept]="accept"
-      (input)="onInput($event.target!)" (change)="onChange($event.target!)"/>
+      (input)="onInput($event)" (change)="onChange($event)"/>
     </div>
   `,
   styleUrls: ['./elements.scss'],
@@ -24,15 +24,15 @@ export class InputComponent implements AfterViewInit, OnChanges {
   @Input('disabled') disabled: boolean = false;
   @Input('required') required: boolean = false;
   @Input('pattern') pattern: string | null = null;
-  @Input('value') value: string = '';
+  @Input('value') value: any = '';
   @Input('placeholder') placeholder: string = '';
   @Input('min') min: number | null = null;
   @Input('max') max: number | null = null;
   @Input('accept') accept: string = '';
   @Input('label') label: string = '';
 
-  @Output() valueInput = new EventEmitter<string>();
-  @Output() valueChange = new EventEmitter<string>();
+  @Output() valueInput = new EventEmitter<Event>();
+  @Output() valueChange = new EventEmitter<Event>();
 
   allowedInputTypes = new RegExp('color|date|datetime-local|email|file|hidden|month|number|password|range|tel|text|time|url');
 
@@ -54,13 +54,11 @@ export class InputComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  onInput(eventTarget: EventTarget): void {
-    let inputValue = (<HTMLInputElement>eventTarget).value;
-    this.valueInput.emit(inputValue);
+  onInput(event: Event): void {
+    this.valueInput.emit(event);
   }
 
-  onChange(eventTarget: EventTarget): void {
-    let inputValue = (<HTMLInputElement>eventTarget).value;
-    this.valueChange.emit(inputValue);
+  onChange(event: Event): void {
+    this.valueChange.emit(event);
   }
 }

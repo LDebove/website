@@ -197,8 +197,9 @@ input:checked + .custom-theme-slider:before {
 
 /* input component */
 .custom-input-group {
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
+  width: inherit;
 
   .custom-input-label-group {
     display: flex;
@@ -296,7 +297,8 @@ input:checked + .custom-theme-slider:before {
 /* button component */
 .custom-button {
   display: flex;
-  width: 100%;
+  width: inherit;
+  height: inherit;
   min-height: 25px;
   padding: 0 5px;
   border: 1px solid var(--highlight-color-1);
@@ -322,6 +324,11 @@ input:checked + .custom-theme-slider:before {
   border: 1px solid var(--highlight-color-2);
 }
 
+.custom-button:disabled {
+  color: var(--tinted-color);
+  cursor: not-allowed;
+}
+
 .custom-button.green {
   border: 1px solid #00D419;
   background-color: #00D419A0;
@@ -336,14 +343,4 @@ input:checked + .custom-theme-slider:before {
   border: 1px solid #FF1616;
   background-color: #FF1616A0;
   color: #FFFFFF;
-}
-
-.custom-button:focus {
-  animation: click 0.5s;
-}
-
-@keyframes click {
-  0% { transform: scale(1); }
-  50% { transform: scale(0.9); }
-  100% { transform: scale(1); }
 }
