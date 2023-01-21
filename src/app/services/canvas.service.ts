@@ -1,23 +1,12 @@
 import { Injectable } from '@angular/core';
-
-export interface color {
-  r: number;
-  g: number;
-  b: number;
-  a: number;
-}
-
-export interface canvasColor {
-  color: color;
-  pixelCount: number;
-}
+import { IColorDictionary, removeColorTransparency, getUniqueColors, replaceLeastUsedColors, addOutline } from '../core/image-editor/canvas.functions';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CanvasService {
 
-  canvasColors: canvasColor[] = [];
+  canvasColors: IColorDictionary = {};
 
   constructor() { }
 
@@ -44,7 +33,6 @@ export class CanvasService {
     let sHeight = ctx.canvas.height / pixels;                     // source height
     let sCtx = document.createElement('canvas').getContext('2d'); // source ctx
     if(!sCtx || sWidth < 1 || sHeight < 1) {
-      console.log('pixelate: could not create source canvas');
       return;
     }
     sCtx.canvas.width = sWidth;
@@ -62,15 +50,8 @@ export class CanvasService {
    * @param ctx CanvasRenderingContext2D
    */
   removeColorTransparency(ctx: CanvasRenderingContext2D): void {
-    let colorBuffer = new Uint8ClampedArray(ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height).data.buffer);
-    for(let i = 0; i < colorBuffer.length; i += 4) {
-      if(colorBuffer[i + 3] < 255) {
-        colorBuffer[i] = 0;
-        colorBuffer[i + 1] = 0;
-        colorBuffer[i + 2] = 0;
-        colorBuffer[i + 3] = 0;
-      }
-    }
+    let colorBuffer = new Uint8Array(ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height).data.buffer);
+    colorBuffer = removeColorTransparency(colorBuffer);
     let imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
     imageData.data.set(colorBuffer);
     ctx.putImageData(imageData, 0, 0);
@@ -81,48 +62,30 @@ export class CanvasService {
    * @param ctx CanvasRenderingContext2D
    * @returns array of color objects
    */
-  getUniqueColors(ctx: CanvasRenderingContext2D): canvasColor[] {
-    console.log('get unique colors');
-    this.canvasColors = [];
-    let colorBuffer = new Uint8Array(ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height).data.buffer);
-    for(let i = 0; i < colorBuffer.length; i += 4) {
-      let canvasColor: canvasColor = {
-        color: { r: colorBuffer[i], g: colorBuffer[i + 1], b: colorBuffer[i + 2], a: colorBuffer[i + 3] },
-        pixelCount: 1
-      };
-      if(!this.alreadyInCanvasColors(canvasColor)) {
-        this.canvasColors.push(canvasColor);
-      } else {
-        let colorIndex = this.canvasColors.findIndex(
-          (arrayColor) =>
-          arrayColor.color.r === canvasColor.color.r
-          && arrayColor.color.g === canvasColor.color.g
-          && arrayColor.color.b === canvasColor.color.b
-          && arrayColor.color.a === canvasColor.color.a
-        );
-        this.canvasColors[colorIndex].pixelCount += 1;
-      }
-    }
-    console.log(this.canvasColors);
-    return this.canvasColors;
+  getUniqueColors(ctx: CanvasRenderingContext2D): IColorDictionary {
+    return getUniqueColors(new Uint8Array(ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height).data.buffer));
   }
 
   /**
-   * check if color is in canvasColor variable
-   * @param color color
-   * @param array color array
-   * @returns true if color is in array, false if not
+   * replace the least used color with the closest color in the color dictionary
+   * @param colorsToReplace number color number of colors to be replaced
+   * @param canvasColors IColorDictionary current color dictionary
+   * @param colorBuffer Uint8Array color buffer
+   * @return object containing the color dictionary and the color buffer
    */
-  private alreadyInCanvasColors(canvasColor: canvasColor): boolean {
-    for(let arrayColor of this.canvasColors) {
-      if(canvasColor.color.r === arrayColor.color.r && canvasColor.color.g === arrayColor.color.g && canvasColor.color.b === arrayColor.color.b && canvasColor.color.a === arrayColor.color.a) {
-        return true;
-      }
-    }
-    return false;
+  replaceLeastUsedColors(colorsToReplace: number, canvasColors: IColorDictionary, colorBuffer: Uint8Array): { canvasColors: IColorDictionary, colorBuffer: Uint8Array } {
+    return replaceLeastUsedColors(colorsToReplace, canvasColors, colorBuffer);
   }
 
-  test(value: number): number {
-    return value * value;
+  /**
+   * adds an outline over fully transparent pixels around colored pixels
+   * @param colorBuffer Uint8Array color buffer
+   * @param imageWidth number imageWidth in pixels
+   * @param outlineWidth number outline width in pixels
+   * @param outlineColor number[] array of 4 numbers (r,g,b,a) between 0 and 255 representing the desired outline color
+   * @returns Uint8Array colorBuffer
+   */
+  addOutline(colorBuffer: Uint8Array, imageWidth: number, outlineWidth: number, outlineColor: number[]): Uint8Array {
+    return addOutline(colorBuffer, imageWidth, outlineWidth, outlineColor);
   }
 }

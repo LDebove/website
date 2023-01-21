@@ -4,12 +4,13 @@
   <div class="canvas-container">
     <canvas class="preview-canvas" #preview appPreserveCanvasAspectRatio [canvasChangeIndicator]="canvasChangeIndicator"></canvas>
   </div>
-  <cButton class="reset-button" [text]="'IMAGE-EDITOR.RESET' | translate" [disabled]="!imageLoaded" (buttonClick)="resetPreviewCanvas()"></cButton>
+  <cButton class="reset-button" [text]="'IMAGE-EDITOR.RESET' | translate" [disabled]="!ready" (buttonClick)="resetPreviewCanvas()"></cButton>
 </div>
 <div class="tool-box">
+  <cLoader class="loader" [loading]="!ready && imageLoaded"></cLoader>
   <h4 class="title">{{ 'IMAGE-EDITOR.TOOLS' | translate }}</h4>
-  <cButton class="center" [text]="'IMAGE-EDITOR.ALPHA-COLOR-REMOVER.TEXT' | translate" [disabled]="!imageLoaded" (buttonClick)="removeColorTransparency()"></cButton>
-  <cInput [type]="'number'" [label]="'IMAGE-EDITOR.PIXELATOR.TEXT' | translate" [value]="1" [disabled]="!imageLoaded" [min]="1" [max]="1000" (valueChange)="pixelate($event.target!)"></cInput>
-  <cInput [type]="'number'" [label]="'IMAGE-EDITOR.COLOR-REDUCER.TEXT' | translate" [value]="colorNumber" [disabled]="!imageLoaded" [min]="1" [max]="colorNumber" [value]="colorNumber"></cInput>
-  <cInput [type]="'number'" [label]="'IMAGE-EDITOR.OUTLINE-ADDITION.TEXT' | translate" [value]="0" [disabled]="!imageLoaded"></cInput>
+  <cButton class="center" [text]="'IMAGE-EDITOR.ALPHA-COLOR-REMOVER.TEXT' | translate" [disabled]="!ready" (buttonClick)="removeColorTransparency()"></cButton>
+  <cInput [type]="'number'" [label]="'IMAGE-EDITOR.PIXELATOR.TEXT' | translate" [value]="1" [disabled]="!ready" [min]="1" [max]="1000" (valueChange)="pixelate($event.target!)"></cInput>
+  <cInput [type]="'number'" [label]="'IMAGE-EDITOR.COLOR-REDUCER.TEXT' | translate" [value]="canvasColorNumber" [disabled]="!ready" [min]="2" [max]="canvasColorNumber" (valueChange)="replaceLeastUsedColors($event.target!)"></cInput>
+  <cInput [type]="'number'" [label]="'IMAGE-EDITOR.OUTLINE-ADDITION.TEXT' | translate" [value]="0" [disabled]="!ready" [min]="0" [max]="1000" (valueChange)="addOutline($event.target!)"></cInput>
 </div>

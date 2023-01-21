@@ -13,6 +13,7 @@ import { BurgerComponent } from './elements/burger.component';
 import { InputComponent } from './elements/input.component';
 import { CheckboxComponent } from './elements/checkbox.component';
 import { ButtonComponent } from './elements/button.component';
+import { LoaderComponent } from './elements/loader.component';
 
 
 
@@ -28,7 +29,8 @@ import { ButtonComponent } from './elements/button.component';
     BurgerComponent,
     InputComponent,
     CheckboxComponent,
-    ButtonComponent
+    ButtonComponent,
+    LoaderComponent
   ],
   imports: [
     CommonModule,
@@ -47,7 +49,8 @@ import { ButtonComponent } from './elements/button.component';
     BurgerComponent,
     InputComponent,
     CheckboxComponent,
-    ButtonComponent
+    ButtonComponent,
+    LoaderComponent
   ]
 })
 export class SharedModule { }
