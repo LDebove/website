@@ -370,9 +370,10 @@ input:checked + .custom-theme-slider:before {
 /* hint component */
 .custom-hint {
   display: flex;
-  width: 12px;
-  height: 12px;
-  font-size: 8px;
+  width: 15px;
+  height: 15px;
+  font-size: 12px;
+  font-weight: bold;
   border-radius: 50%;
   border: 1px solid var(--highlight-color-1);
   box-sizing: border-box;
