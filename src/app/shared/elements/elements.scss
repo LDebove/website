@@ -334,17 +334,17 @@ input:checked + .custom-theme-slider:before {
 
   &.green {
     border: 1px solid #00D419;
-    background-color: #00D419A0;
+    background-color: #24BF36;
     color: #FFFFFF;
   }
   &.orange {
     border: 1px solid #FF7110;
-    background-color: #FF7110A0;
+    background-color: #EA7C33;
     color: #FFFFFF;
   }
   &.red {
     border: 1px solid #FF1616;
-    background-color: #FF1616A0;
+    background-color: #CC3030;
     color: #FFFFFF;
   }
 }
@@ -386,5 +386,24 @@ input:checked + .custom-theme-slider:before {
 
   &:hover {
     border: 1px solid var(--highlight-color-2);
+  }
+}
+
+
+/* dialog component */
+.custom-dialog-overlay {
+  display: flex;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--overlay-color);
+
+  .custom-dialog {
+    display: flex;
+    width: 500px;
+    height: 500px;
+    background-color: #ff00ff;
   }
 }

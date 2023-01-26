@@ -71,6 +71,10 @@ export class TooltipDirective implements AfterContentInit, OnChanges {
         //left
         x = elementRect.x - tooltipRect.width - 5;
         y = elementRect.y - tooltipRect.height / 2 + elementRect.height / 2;
+        if(x >= 0 && x + tooltipRect.width <= bodyRect.width && y >= 0 && y + tooltipRect.height <= bodyRect.height) break;
+        // top
+        x = elementRect.x + elementRect.width / 2 - tooltipRect.width / 2;
+        y = elementRect.y - tooltipRect.height - 5;
         break;
 
       case 'top':
