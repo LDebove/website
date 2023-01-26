@@ -20,6 +20,7 @@
   "IMAGE-EDITOR": {
     "IMAGE": "Image",
     "TOOLS": "Tools",
+    "DOWNLOAD": "Download",
     "RESET": "Reset",
     "ALPHA-COLOR-REMOVER": {
       "TEXT": "Remove alpha colors",
@@ -36,6 +37,10 @@
     "OUTLINE-ADDITION": {
       "TEXT": "Outline width",
       "HINT": "Adds an outline around non-transparent colors"
+    },
+    "OUTLINE-COLOR": {
+      "TEXT": "Outline color",
+      "HINT": "Sets outline color"
     }
   }
 }

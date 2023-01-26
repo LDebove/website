@@ -19,11 +19,13 @@ export class ImageEditorComponent implements OnInit, AfterViewInit {
   backupCanvasCtx: CanvasRenderingContext2D = {} as CanvasRenderingContext2D;
 
   ready: boolean = false;
+  colorReady: boolean = false;
   imageLoaded: boolean = false;
 
   canvasChangeIndicator: boolean = false;
   canvasColors: IColorDictionary = {};
   canvasColorNumber: number = 1;
+  outlineColor: number[] = [255, 255, 255, 255];
 
   previewCanvasLoaded: Subject<void> = new Subject<void>();
 
@@ -78,6 +80,7 @@ export class ImageEditorComponent implements OnInit, AfterViewInit {
   setCanvas(imageLoadEvent: Event): void {
     this.canvasChangeIndicator = !this.canvasChangeIndicator;
     this.ready = false;
+    this.colorReady = false;
     this.imageLoaded = false;
     let originalCanvas = this.originalCanvas;
     let originalCanvasCtx = this.originalCanvasCtx;
@@ -106,6 +109,7 @@ export class ImageEditorComponent implements OnInit, AfterViewInit {
       img.src = <string>event.target!.result;
     }
     reader.readAsDataURL((<any>imageLoadEvent.target!).files[0]);
+    this.ready = true;
     this.imageLoaded = true;
   }
 
@@ -130,6 +134,8 @@ export class ImageEditorComponent implements OnInit, AfterViewInit {
           let imageData = this.previewCanvasCtx.getImageData(0, 0, this.previewCanvas.width, this.previewCanvas.height);
           imageData.data.set(data.response);
           this.previewCanvasCtx.putImageData(imageData, 0, 0);
+          this.canvasService.drawImage(this.backupCanvasCtx, this.previewCanvas, 0, 0);
+          this.getUniqueColors();
           worker.terminate();
         }
       };
@@ -141,6 +147,8 @@ export class ImageEditorComponent implements OnInit, AfterViewInit {
       });
     } else {
       this.canvasService.removeColorTransparency(this.previewCanvasCtx);
+      this.canvasService.drawImage(this.backupCanvasCtx, this.previewCanvas, 0, 0);
+      this.getUniqueColors();
     }
   }
 
@@ -157,6 +165,7 @@ export class ImageEditorComponent implements OnInit, AfterViewInit {
     }
     let pixels = parseInt((<HTMLInputElement>input).value);
     this.canvasService.pixelate(this.previewCanvasCtx, pixels);
+    this.getUniqueColors();
   }
 
   /**
@@ -164,7 +173,7 @@ export class ImageEditorComponent implements OnInit, AfterViewInit {
    * uses web workers to perform calculations
    */
   getUniqueColors(): void {
-    this.ready = false;
+    this.colorReady = false;
     if (typeof Worker !== 'undefined') {
       const worker = new Worker(new URL('./canvas-calculation.worker', import.meta.url));
       this.workers.push(worker);
@@ -173,18 +182,19 @@ export class ImageEditorComponent implements OnInit, AfterViewInit {
           this.canvasColors = data.response;
           this.canvasColorNumber = Object.keys(this.canvasColors).length;
           worker.terminate();
-          this.ready = true;
+          this.colorReady = true;
         }
       };
       worker.postMessage({
         function: 'getUniqueColors',
         params: [
-          new Uint8Array(this.originalCanvasCtx.getImageData(0, 0, this.originalCanvas.width, this.originalCanvas.height).data.buffer)
+          new Uint8Array(this.previewCanvasCtx.getImageData(0, 0, this.previewCanvas.width, this.previewCanvas.height).data.buffer)
         ]
       });
     } else {
-      this.canvasColors = this.canvasService.getUniqueColors(this.originalCanvasCtx);
-      this.ready = true;
+      this.canvasColors = this.canvasService.getUniqueColors(this.previewCanvasCtx);
+      this.canvasColorNumber = Object.keys(this.canvasColors).length;
+      this.colorReady = true;
     }
   }
 
@@ -244,7 +254,7 @@ export class ImageEditorComponent implements OnInit, AfterViewInit {
    */
   addOutline(input: EventTarget): void {
     let outlineWidth = parseInt((<HTMLInputElement>input).value);
-    if (outlineWidth < 1) return;
+    if (outlineWidth < 0) return;
     if(this.activeFunction.outlineAddition) {
       this.canvasService.drawImage(this.previewCanvasCtx, this.backupCanvas, 0, 0);
     } else {
@@ -270,7 +280,7 @@ export class ImageEditorComponent implements OnInit, AfterViewInit {
           new Uint8Array(this.previewCanvasCtx.getImageData(0, 0, this.previewCanvas.width, this.previewCanvas.height).data.buffer),
           this.previewCanvas.width,
           outlineWidth,
-          [255, 255, 255, 255]
+          this.outlineColor
         ]
       });
     } else {
@@ -278,12 +288,33 @@ export class ImageEditorComponent implements OnInit, AfterViewInit {
         new Uint8Array(this.previewCanvasCtx.getImageData(0, 0, this.previewCanvas.width, this.previewCanvas.height).data.buffer),
         this.previewCanvas.width,
         outlineWidth,
-        [255, 255, 255, 255]
+        this.outlineColor
       );
       let imageData = this.previewCanvasCtx.getImageData(0, 0, this.previewCanvas.width, this.previewCanvas.height);
       imageData.data.set(result);
       this.previewCanvasCtx.putImageData(imageData, 0, 0);
       this.ready = true;
     }
+  }
+
+  /**
+   * sets outline color to the input value
+   * convert hexadecimal color string to 3 number rgb
+   * @param input EventTarget
+   */
+  setOutlineColor(input: EventTarget): void {
+    let hexColor = (<HTMLInputElement>input).value;
+    if(hexColor.length !== 7) return;
+    this.outlineColor = [parseInt('0x' + hexColor.substring(1, 3)), parseInt('0x' + hexColor.substring(3, 5)), parseInt('0x' + hexColor.substring(5, 7)), 255];
+  }
+
+  /**
+   * download the canvas as a png
+   */
+  download(): void {
+    let link = document.createElement('a');
+    link.download = 'image.png';
+    link.href = this.previewCanvas.toDataURL();
+    link.click();
   }
 }

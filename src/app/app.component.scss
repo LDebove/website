@@ -1,0 +1,16 @@
+::ng-deep.custom-tooltip {
+  display: flex;
+  position: fixed;
+  visibility: hidden;
+  padding: 5px;
+  border: 1px solid var(--highlight-color-2);
+  box-sizing: border-box;
+  border-radius: 5px;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-5);
+  color: #FFFFFF;
+  z-index: 100;
+  white-space: nowrap;
+  font-size: 12px;
+}

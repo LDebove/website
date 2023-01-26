@@ -12,7 +12,7 @@ import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, O
       </div>
       <input class="custom-input"
       [type]="type" [disabled]="disabled" [value]="value" [placeholder]="placeholder"
-      [min]="min ? min : ''" [max]="max ? max : ''" [pattern]="pattern ? pattern : '.*'"
+      [min]="min !== undefined ? min : ''" [max]="max !== undefined ? max : ''" [pattern]="pattern ? pattern : '.*'"
       [accept]="accept"
       (input)="onInput($event)" (change)="onChange($event)"/>
     </div>
@@ -23,11 +23,12 @@ export class InputComponent implements AfterViewInit, OnChanges {
   @Input('type') type: string = 'text';
   @Input('disabled') disabled: boolean = false;
   @Input('required') required: boolean = false;
-  @Input('pattern') pattern: string | null = null;
+  @Input('active') active: boolean = true;
+  @Input('pattern') pattern: string | undefined = undefined;
   @Input('value') value: any = '';
   @Input('placeholder') placeholder: string = '';
-  @Input('min') min: number | null = null;
-  @Input('max') max: number | null = null;
+  @Input('min') min: number | undefined = undefined;
+  @Input('max') max: number | undefined = undefined;
   @Input('accept') accept: string = '';
   @Input('label') label: string = '';
 
@@ -55,10 +56,14 @@ export class InputComponent implements AfterViewInit, OnChanges {
   }
 
   onInput(event: Event): void {
-    this.valueInput.emit(event);
+    if(this.active) {
+      this.valueInput.emit(event);
+    }
   }
 
   onChange(event: Event): void {
-    this.valueChange.emit(event);
+    if(this.active) {
+      this.valueChange.emit(event);
+    }
   }
 }

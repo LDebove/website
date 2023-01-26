@@ -20,6 +20,7 @@
   "IMAGE-EDITOR": {
     "IMAGE": "Image",
     "TOOLS": "Outils",
+    "DOWNLOAD": "Télécharger",
     "RESET": "Réinitialiser",
     "ALPHA-COLOR-REMOVER": {
       "TEXT": "Supprimer la transparence",
@@ -36,6 +37,10 @@
     "OUTLINE-ADDITION": {
       "TEXT": "Largeur du contour",
       "HINT": "Ajoute un contour autour des couleurs non-transparentes"
+    },
+    "OUTLINE-COLOR": {
+      "TEXT": "Couleur du coutour",
+      "HINT": "Modifie la couleur du contour"
     }
   }
 }
