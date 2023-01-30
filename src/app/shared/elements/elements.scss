@@ -390,20 +390,22 @@ input:checked + .custom-theme-slider:before {
 }
 
 
-/* dialog component */
-.custom-dialog-overlay {
+/* modal component */
+.custom-modal-overlay {
   display: flex;
   position: absolute;
   width: 100vw;
   height: 100vh;
+  top: 0;
+  left: 0;
   justify-content: center;
   align-items: center;
   background-color: var(--overlay-color);
+  pointer-events: all;
 
-  .custom-dialog {
-    display: flex;
-    width: 500px;
-    height: 500px;
-    background-color: #ff00ff;
+  .custom-modal-container {
+    box-sizing: border-box;
+    border: 1px solid var(--highlight-color-1);
+    background-color: var(--color-3);
   }
 }
