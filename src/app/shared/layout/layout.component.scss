@@ -23,6 +23,7 @@ main {
   border-bottom: 1px solid var(--contrast-color);
   box-sizing: border-box;
   background-color: var(--color-3);
+  z-index: 1;
 }
 
 footer {

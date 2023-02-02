@@ -1,5 +1,5 @@
 <div class="header-content">
-  <div class="logo-container" (click)="showForm = true; $event.stopPropagation()">
+  <div class="logo-container" (click)="openLogin(); $event.stopPropagation()">
     <img src="assets/images/logo.png" alt="logo">
   </div>
   Léo
@@ -24,8 +24,5 @@
   </div>
 </div>
 <cBurger *ngIf="mobileDisplay" class="header-burger" [(checked)]="showHeaderLinks"></cBurger>
-<cModal *ngIf="showForm" (close)="showForm = false">
-  <cInput type="password" [placeholder]="'COMMON.PASSWORD' | translate"></cInput>
-</cModal>
 
 

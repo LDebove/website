@@ -7,6 +7,8 @@ import { FooterComponent } from './footer/footer.component';
 import { LayoutComponent } from './layout.component';
 import { SharedModule } from '../shared.module';
 import { ScrollIndicatorDirective } from './header/scroll-indicator.directive';
+import { LicenseComponent } from './license/license.component';
+import { LoginComponent } from './login/login.component';
 
 
 @NgModule({
@@ -14,7 +16,9 @@ import { ScrollIndicatorDirective } from './header/scroll-indicator.directive';
     HeaderComponent,
     FooterComponent,
     LayoutComponent,
-    ScrollIndicatorDirective
+    ScrollIndicatorDirective,
+    LicenseComponent,
+    LoginComponent
   ],
   imports: [
     CommonModule,
