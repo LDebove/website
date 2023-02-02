@@ -5,6 +5,9 @@
     "TWW3-RANDOM-LORD": "TWW3 random lord",
     "TERRARIA-PIXELART": "Terraria pixelart"
   },
+  "COMMON": {
+    "PASSWORD": "Password"
+  },
   "LAYOUT": {
     "EMAIL": "Email",
     "CV": "CV"

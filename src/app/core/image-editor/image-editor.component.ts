@@ -174,6 +174,7 @@ export class ImageEditorComponent implements OnInit, AfterViewInit {
    */
   getUniqueColors(): void {
     this.colorReady = false;
+    this.ready = false;
     if (typeof Worker !== 'undefined') {
       const worker = new Worker(new URL('./canvas-calculation.worker', import.meta.url));
       this.workers.push(worker);
@@ -183,6 +184,7 @@ export class ImageEditorComponent implements OnInit, AfterViewInit {
           this.canvasColorNumber = Object.keys(this.canvasColors).length;
           worker.terminate();
           this.colorReady = true;
+          this.ready = true;
         }
       };
       worker.postMessage({
@@ -195,6 +197,7 @@ export class ImageEditorComponent implements OnInit, AfterViewInit {
       this.canvasColors = this.canvasService.getUniqueColors(this.previewCanvasCtx);
       this.canvasColorNumber = Object.keys(this.canvasColors).length;
       this.colorReady = true;
+      this.ready = true;
     }
   }
 

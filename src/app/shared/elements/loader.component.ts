@@ -1,12 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'cLoader',
   template: `
-    <div class="custom-loader" [ngStyle]="{'display': loading ? 'block' : 'none'}"></div>
+    <div class="custom-loader"></div>
   `,
   styleUrls: ['./elements.scss'],
 })
 export class LoaderComponent {
-  @Input('loading') loading: boolean = true;
 }

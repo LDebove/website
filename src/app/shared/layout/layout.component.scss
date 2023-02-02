@@ -8,6 +8,7 @@ header,
 footer {
   flex-shrink: 0;
   overflow: auto;
+  z-index: 1;
 }
 
 header {

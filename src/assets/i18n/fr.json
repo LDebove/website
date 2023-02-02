@@ -5,6 +5,9 @@
     "TWW3-RANDOM-LORD": "Seigneur aléatoire TWW3",
     "TERRARIA-PIXELART": "Pixelart Terraria"
   },
+  "COMMON": {
+    "PASSWORD": "Mot de passe"
+  },
   "LAYOUT": {
     "EMAIL": "Mail",
     "CV": "CV"

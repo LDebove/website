@@ -4,13 +4,13 @@ import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, O
   selector: 'cInput',
   template: `
     <div class="custom-input-group" [ngClass]="{'hidden': type === 'hidden'}">
-      <div class="custom-input-label-group">
-        <label *ngIf="label !== ''" class="custom-input-label" #labelElement>
+      <div class="input-label-group">
+        <label *ngIf="label !== ''" class="input-label" #labelElement>
           {{ label }}
         </label>
-        <span *ngIf="required" class="custom-input-required">&nbsp;*</span>
+        <span *ngIf="required" class="input-required">&nbsp;*</span>
       </div>
-      <input class="custom-input"
+      <input class="input"
       [type]="type" [disabled]="disabled" [value]="value" [placeholder]="placeholder"
       [min]="min !== undefined ? min : ''" [max]="max !== undefined ? max : ''" [pattern]="pattern ? pattern : '.*'"
       [accept]="accept"
@@ -42,9 +42,9 @@ export class InputComponent implements AfterViewInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if(changes['type']) {
       if(this.type === 'hidden') {
-        this.element.nativeElement.classList.add('hidden');
+        (<HTMLElement>this.element.nativeElement).style.display = 'none';
       } else {
-        this.element.nativeElement.classList.remove('hidden');
+        (<HTMLElement>this.element.nativeElement).style.removeProperty('display');
       }
     }
   }

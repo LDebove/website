@@ -1,9 +1,9 @@
-import { AfterContentInit, Directive, ElementRef, HostListener, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { AfterContentInit, Directive, ElementRef, HostListener, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 
 @Directive({
   selector: '[cTooltip]'
 })
-export class TooltipDirective implements AfterContentInit, OnChanges {
+export class TooltipDirective implements AfterContentInit, OnChanges, OnDestroy {
   @Input('tooltipText') tooltipText: string = '';
   @Input('position') position: string = 'auto';
 
@@ -16,7 +16,7 @@ export class TooltipDirective implements AfterContentInit, OnChanges {
   }
 
   positionRegex = new RegExp('auto|top|right|bottom|left');
-  tooltipElement: HTMLDivElement | undefined = undefined;
+  tooltipElement: HTMLSpanElement | undefined = undefined;
 
   constructor(private element: ElementRef) { }
 
@@ -32,16 +32,18 @@ export class TooltipDirective implements AfterContentInit, OnChanges {
       } else {
         this.createTooltipElement();
       }
-    }
-
-    if (changes['tooltipText']) {
+    } else if (changes['tooltipText']) {
       this.createTooltipElement();
     }
   }
 
+  ngOnDestroy(): void {
+    this.tooltipElement?.remove();
+  }
+
   createTooltipElement(): void {
     if (!this.tooltipElement) {
-      this.tooltipElement = document.createElement('div');
+      this.tooltipElement = document.createElement('span');
     }
     this.tooltipElement.classList.add('custom-tooltip');
     this.tooltipElement.innerHTML = this.tooltipText;

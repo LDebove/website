@@ -44,3 +44,27 @@
     }
   }
 }
+
+.copyright {
+  user-select: none;
+  cursor: pointer;
+}
+
+.license-container {
+  display: flex;
+  flex-direction: column;
+  text-align: justify;
+  max-width: 750px;
+  gap: 20px;
+
+  h2,
+  p {
+    margin: 0;
+  }
+
+  .license {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+}

@@ -5,7 +5,7 @@ import { Component, Output, EventEmitter, Input } from '@angular/core';
   template: `
     <label class="custom-theme-switch">
       <input type="checkbox" [(ngModel)]="checked" (change)="onChange()">
-      <span class="custom-theme-slider"></span>
+      <span class="theme-slider"></span>
     </label>
   `,
   styleUrls: ['./elements.scss']

@@ -4,8 +4,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   selector: 'cCheckbox',
   template: `
     <div class="custom-checkbox-container">
-      <input class="custom-checkbox" type="checkbox" [(ngModel)]="checked" (change)="onChange()">
-      <label *ngIf="label !== ''" class="custom-checkbox-label">
+      <input class="checkbox" type="checkbox" [(ngModel)]="checked" (change)="onChange()">
+      <label *ngIf="label !== ''" class="checkbox-label">
         <span>{{ label }}</span>
       </label>
     </div>

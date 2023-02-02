@@ -19,6 +19,7 @@ export class HeaderComponent implements OnInit, AfterContentInit {
   mobileDisplay: boolean = false;
   mobileUa: boolean = false;
   showHeaderLinks: boolean = false;
+  showForm: boolean = false;
 
   @HostListener('window:resize') onResize(): void {
     if(document.documentElement.clientWidth < 501) {

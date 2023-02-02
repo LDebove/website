@@ -9,6 +9,7 @@ import { ThemeService } from 'src/app/services/theme.service';
 export class FooterComponent implements OnInit {
 
   lightMode: boolean = false;
+  showCopyright: boolean = false;
 
   constructor(private theme: ThemeService) { }
 
