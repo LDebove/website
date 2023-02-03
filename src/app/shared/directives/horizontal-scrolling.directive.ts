@@ -1,7 +1,7 @@
 import { Directive, HostListener } from '@angular/core';
 
 @Directive({
-  selector: '[appHorizontalScrolling]'
+  selector: '[horizontalScrolling]'
 })
 export class HorizontalScrollingDirective {
 

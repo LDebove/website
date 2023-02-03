@@ -1,0 +1,35 @@
+<div class="tool-box main-box">
+  <h4 class="title">{{ 'IMAGE-EDITOR.IMAGE' | translate }}</h4>
+  <cInput class="file-input" type="file" accept=".png,.jpg" (valueChange)="setCanvas($event)"></cInput>
+  <div class="canvas-container">
+    <canvas class="preview-canvas" #preview appPreserveCanvasAspectRatio [canvasChangeIndicator]="canvasChangeIndicator"></canvas>
+  </div>
+  <div class="button-container">
+    <cButton class="download-button" color="green" [text]="'IMAGE-EDITOR.DOWNLOAD' | translate" [disabled]="!ready" (buttonClick)="download()"></cButton>
+    <cButton class="reset-button" color="red" [text]="'IMAGE-EDITOR.RESET' | translate" [disabled]="!ready" (buttonClick)="resetPreviewCanvas()"></cButton>
+  </div>
+</div>
+<div class="tool-box">
+  <cLoader *ngIf="!ready && imageLoaded" class="loader"></cLoader>
+  <h4 class="title">{{ 'IMAGE-EDITOR.TOOLS' | translate }}</h4>
+  <div class="form-control">
+    <cButton color="orange" [text]="'IMAGE-EDITOR.ALPHA-COLOR-REMOVER.TEXT' | translate" [disabled]="!imageLoaded" (buttonClick)="removeColorTransparency()"></cButton>
+    <cHint class="hint" [text]="'IMAGE-EDITOR.ALPHA-COLOR-REMOVER.HINT' | translate"></cHint>
+  </div>
+  <div class="form-control">
+    <cInput type="number" [label]="'IMAGE-EDITOR.PIXELATOR.TEXT' | translate" [value]="1" [disabled]="!imageLoaded" [min]="1" [max]="1000" (valueChange)="pixelate($event.target!)"></cInput>
+    <cHint class="hint" [text]="'IMAGE-EDITOR.PIXELATOR.HINT' | translate"></cHint>
+  </div>
+  <div class="form-control">
+    <cInput type="number" [label]="'IMAGE-EDITOR.COLOR-REDUCER.TEXT' | translate" [value]="canvasColorNumber" [disabled]="!imageLoaded || !colorReady" [active]="ready" [min]="1" [max]="canvasColorNumber" (valueChange)="replaceLeastUsedColors($event.target!)"></cInput>
+    <cHint class="hint" [text]="'IMAGE-EDITOR.COLOR-REDUCER.HINT' | translate"></cHint>
+  </div>
+  <div class="form-control">
+    <cInput type="number" [label]="'IMAGE-EDITOR.OUTLINE-ADDITION.TEXT' | translate" [value]="0" [disabled]="!imageLoaded" [active]="ready" [min]="0" [max]="1000" (valueChange)="addOutline($event.target!)"></cInput>
+    <cHint class="hint" [text]="'IMAGE-EDITOR.OUTLINE-ADDITION.HINT' | translate"></cHint>
+  </div>
+  <div class="form-control">
+    <cInput type="color" [label]="'IMAGE-EDITOR.OUTLINE-COLOR.TEXT' | translate" value="#FFFFFF" [disabled]="!imageLoaded" (valueChange)="setOutlineColor($event.target!)"></cInput>
+    <cHint class="hint" [text]="'IMAGE-EDITOR.OUTLINE-COLOR.HINT' | translate"></cHint>
+  </div>
+</div>

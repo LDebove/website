@@ -1,7 +1,7 @@
 import { AfterViewInit, Directive, ElementRef, HostListener } from '@angular/core';
 
 @Directive({
-  selector: '[appScrollIndicator]'
+  selector: '[scrollIndicator]'
 })
 export class ScrollIndicatorDirective implements AfterViewInit {
 

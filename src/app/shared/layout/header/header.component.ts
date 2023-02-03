@@ -1,8 +1,10 @@
 import { AfterContentInit, Component, HostListener } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { PopupService } from 'src/app/services/popup.service';
 import { ThemeService } from 'src/app/services/theme.service';
 import { UserAgentService } from 'src/app/services/user-agent.service';
+import { LoginComponent } from '../login/login.component';
 
 @Component({
   selector: 'app-header',
@@ -28,7 +30,7 @@ export class HeaderComponent implements OnInit, AfterContentInit {
     }
   }
 
-  constructor(private translate: TranslateService, private ua: UserAgentService, private theme: ThemeService) { }
+  constructor(private translate: TranslateService, private ua: UserAgentService, private theme: ThemeService, private popup: PopupService) { }
 
   ngOnInit(): void {
     this.mobileUa = this.ua.isMobile();
@@ -59,5 +61,9 @@ export class HeaderComponent implements OnInit, AfterContentInit {
    */
   setLanguage(language: string) {
     this.translate.use(language);
+  }
+
+  openLogin(): void {
+    this.popup.openModal(LoginComponent);
   }
 }

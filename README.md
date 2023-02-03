@@ -36,3 +36,14 @@ components:
 - drag & drop (directive)
 - dialog (component)
 - snackbar (component)
+
+- image tools
+  - pixelate
+  - remove color transparency
+  - reduce number of colors
+  - border image (transparency)
+- terraria pixelart
+- tww3 random lord
+- file manager
+- portfolio
+- todo

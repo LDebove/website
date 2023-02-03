@@ -1,1 +1,13 @@
 <router-outlet></router-outlet>
+<div class="custom-modal-overlay" [ngClass]="{'closed': !modalOpen}">
+  <div class="modal-container" #modal>
+    <button class="close-button" (click)="closeModal()">X</button>
+    <ng-container #modalContainer></ng-container>
+  </div>
+</div>
+
+<div class="custom-feedback-overlay" [ngClass]="{'closed': !feedbackOpen}" #feedbackOverlay>
+  <div class="feedback-container">
+    <ng-container #feedbackContainer></ng-container>
+  </div>
+</div>

@@ -5,16 +5,49 @@
     "TWW3-RANDOM-LORD": "TWW3 random lord",
     "TERRARIA-PIXELART": "Terraria pixelart"
   },
+  "COMMON": {
+    "PASSWORD": "Password"
+  },
+  "LAYOUT": {
+    "EMAIL": "Email",
+    "CV": "CV"
+  },
   "HOME": {
     "CONCEPT": {
       "TITLE": "The concept",
-      "TEXT": "This website is under open-source license, the link to the GitHub repository is available below. The applications on this website are intended to meet various technical or non-technical needs, to demonstrate skills, and especially to save time.",
+      "TEXT": "This website is under open-source license, it is built with Angular 15, the link to the GitHub repository is available below. The applications on this website are intended to meet various technical or non-technical needs, to demonstrate skills, and especially to save time.",
       "REPOSITORY": "GitHub repository"
     },
     "DEVELOPER": {
       "TITLE": "The developer",
       "TEXT-PART-1": "I am an information engineering student who enjoys web development as much as software development. I love starting new projects that are too ambitious for me to ever see through.",
       "TEXT-PART-2": "May this website not be one of them..."
+    }
+  },
+  "IMAGE-EDITOR": {
+    "IMAGE": "Image",
+    "TOOLS": "Tools",
+    "DOWNLOAD": "Download",
+    "RESET": "Reset",
+    "ALPHA-COLOR-REMOVER": {
+      "TEXT": "Remove alpha colors",
+      "HINT": "Removes colors that contain transparency"
+    },
+    "PIXELATOR": {
+      "TEXT": "Pixel ratio",
+      "HINT": "One pixel will be displayed every group of N * N pixels"
+    },
+    "COLOR-REDUCER": {
+      "TEXT": "Number of colors",
+      "HINT": "Reduces the number of colors to N colors"
+    },
+    "OUTLINE-ADDITION": {
+      "TEXT": "Outline width",
+      "HINT": "Adds an outline around non-transparent colors"
+    },
+    "OUTLINE-COLOR": {
+      "TEXT": "Outline color",
+      "HINT": "Sets outline color"
     }
   }
 }

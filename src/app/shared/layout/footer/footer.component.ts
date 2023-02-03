@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { PopupService } from 'src/app/services/popup.service';
 import { ThemeService } from 'src/app/services/theme.service';
+import { LicenseComponent } from '../license/license.component';
 
 @Component({
   selector: 'app-footer',
@@ -10,7 +12,7 @@ export class FooterComponent implements OnInit {
 
   lightMode: boolean = false;
 
-  constructor(private theme: ThemeService) { }
+  constructor(private theme: ThemeService, private popup: PopupService) { }
 
   ngOnInit(): void {
     this.theme.lightMode.subscribe({
@@ -18,5 +20,9 @@ export class FooterComponent implements OnInit {
         this.lightMode = lightMode;
       }
     });
+  }
+
+  openCopyright(): void {
+    this.popup.openModal(LicenseComponent)
   }
 }

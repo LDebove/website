@@ -5,16 +5,49 @@
     "TWW3-RANDOM-LORD": "Seigneur aléatoire TWW3",
     "TERRARIA-PIXELART": "Pixelart Terraria"
   },
+  "COMMON": {
+    "PASSWORD": "Mot de passe"
+  },
+  "LAYOUT": {
+    "EMAIL": "Mail",
+    "CV": "CV"
+  },
   "HOME": {
     "CONCEPT": {
       "TITLE": "Le concept",
-      "TEXT": "Ce site web est sous licence open-source, le lien du dépôt GitHub est disponible ci-dessous. Les applications présentes sur ce site web ont pour but de répondre à divers besoins techniques ou non, démontrer des compétences, et surtout gagner du temps.",
+      "TEXT": "Ce site web est sous licence open-source, il est développé avec Angular 15, le lien du dépôt GitHub est disponible ci-dessous. Les applications présentes sur ce site web ont pour but de répondre à divers besoins techniques ou non, démontrer des compétences, et surtout gagner du temps.",
       "REPOSITORY": "Dépôt GitHub"
     },
     "DEVELOPER": {
       "TITLE": "Le développeur",
       "TEXT-PART-1": "Je suis un étudiant en génie informatique et industriel qui apprécie le développement web tout autant que le développement logiciel. J'adore commencer de nouveaux projets trop ambitieux pour que je puisse en voir le bout un jour.",
       "TEXT-PART-2": "Puisse ce site web ne pas en faire partie..."
+    }
+  },
+  "IMAGE-EDITOR": {
+    "IMAGE": "Image",
+    "TOOLS": "Outils",
+    "DOWNLOAD": "Télécharger",
+    "RESET": "Réinitialiser",
+    "ALPHA-COLOR-REMOVER": {
+      "TEXT": "Supprimer la transparence",
+      "HINT": "Supprime les couleurs qui contiennent de la transparence"
+    },
+    "PIXELATOR": {
+      "TEXT": "Rapport de pixel",
+      "HINT": "Un pixel sera affiché pour chaque groupe de N * N pixels"
+    },
+    "COLOR-REDUCER": {
+      "TEXT": "Nombre de couleurs",
+      "HINT": "Réduit le nombre de couleurs à N couleurs"
+    },
+    "OUTLINE-ADDITION": {
+      "TEXT": "Largeur du contour",
+      "HINT": "Ajoute un contour autour des couleurs non-transparentes"
+    },
+    "OUTLINE-COLOR": {
+      "TEXT": "Couleur du coutour",
+      "HINT": "Modifie la couleur du contour"
     }
   }
 }
