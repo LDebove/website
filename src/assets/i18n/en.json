@@ -15,7 +15,7 @@
   "HOME": {
     "CONCEPT": {
       "TITLE": "The concept",
-      "TEXT": "This website is under open-source license, the link to the GitHub repository is available below. The applications on this website are intended to meet various technical or non-technical needs, to demonstrate skills, and especially to save time.",
+      "TEXT": "This website is under open-source license, it is built with Angular 15, the link to the GitHub repository is available below. The applications on this website are intended to meet various technical or non-technical needs, to demonstrate skills, and especially to save time.",
       "REPOSITORY": "GitHub repository"
     },
     "DEVELOPER": {
