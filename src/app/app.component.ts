@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostListener, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterContentChecked, AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, ViewChild, ViewContainerRef } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { PopupService } from './services/popup.service';
 
@@ -7,7 +7,7 @@ import { PopupService } from './services/popup.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements AfterViewInit, AfterContentChecked {
   title = 'website';
   modalOpen: boolean = false;
   feedbackOpen: boolean = false;
@@ -20,7 +20,7 @@ export class AppComponent implements AfterViewInit {
   @ViewChild('feedback') feedback!: ElementRef;
   @ViewChild('feedbackOverlay') feedbackOverlay!: ElementRef;
 
-  constructor(translate: TranslateService, private popup: PopupService) {
+  constructor(translate: TranslateService, private popup: PopupService, private cdr: ChangeDetectorRef) {
     translate.setDefaultLang('en');
     translate.use('en');
   }
@@ -30,7 +30,9 @@ export class AppComponent implements AfterViewInit {
   }
 
   @HostListener('window:resize') windowResize(): void {
-    this.showFeedback();
+    if(this.feedbackHidden) {
+      this.showFeedback();
+    }
   }
 
   ngAfterViewInit(): void {
@@ -71,6 +73,10 @@ export class AppComponent implements AfterViewInit {
         this.feedbackOpen = status;
       }
     });
+  }
+
+  ngAfterContentChecked(): void {
+    this.cdr.detectChanges();
   }
 
   closeModal(): void {

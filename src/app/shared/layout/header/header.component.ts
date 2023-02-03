@@ -21,6 +21,7 @@ export class HeaderComponent implements OnInit, AfterContentInit {
   mobileDisplay: boolean = false;
   mobileUa: boolean = false;
   showHeaderLinks: boolean = false;
+  headerInit: boolean = true;
 
   @HostListener('window:resize') onResize(): void {
     if(document.documentElement.clientWidth < 501) {
@@ -43,6 +44,11 @@ export class HeaderComponent implements OnInit, AfterContentInit {
     } else {
       this.mobileDisplay = false;
     }
+  }
+
+  scrollIntoLink(): void {
+    document.querySelector('.header-link.active')?.scrollIntoView();
+    this.headerInit = false;
   }
 
   /**
