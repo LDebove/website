@@ -16,9 +16,9 @@ export class CheckboxComponent {
   @Input('label') label: string = '';
   @Input('checked') checked: boolean = false;
 
-  @Output() checkChange = new EventEmitter<boolean>();
+  @Output() checkedChange = new EventEmitter<boolean>();
 
   onChange(): void {
-    this.checkChange.emit(this.checked);
+    this.checkedChange.emit(this.checked);
   }
 }

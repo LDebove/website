@@ -1,5 +1,5 @@
 import { trigger, animate, keyframes, style, transition, state } from '@angular/animations';
-import { AfterViewInit, Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'cButton',
@@ -23,25 +23,18 @@ import { AfterViewInit, Component, EventEmitter, Input, Output } from '@angular/
     ]),
   ]
 })
-export class ButtonComponent implements AfterViewInit {
+export class ButtonComponent {
   @Input('text') text: string = '';
-  @Input('color') color: string = '';
+  @Input('color') color: 'red' | 'orange' | 'green' | '' = '';
   @Input('disabled') disabled: boolean = false;
 
-  @Output() buttonClick = new EventEmitter<void>();
+  @Output() cClick = new EventEmitter<void>();
 
-  allowedColors = new RegExp('red|orange|green');
   justClicked: boolean = false;
-
-  ngAfterViewInit(): void {
-    if(this.color !== '' && !this.allowedColors.test(this.color)) {
-      throw new Error(`checkbox does not support ${this.color} color`);
-    }
-  }
 
   onClick(): void {
     this.justClicked = true;
-    this.buttonClick.emit();
+    this.cClick.emit();
   }
 
   afterAnimation(): void {

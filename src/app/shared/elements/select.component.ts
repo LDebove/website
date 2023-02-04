@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ContentChildren, ElementRef, EventEmitter, HostListener, Output, QueryList, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ContentChildren, ElementRef, EventEmitter, Output, QueryList, ViewChild } from '@angular/core';
 import { OptionComponent } from './option.component';
 
 @Component({
@@ -15,9 +15,9 @@ import { OptionComponent } from './option.component';
 export class SelectComponent implements AfterViewInit {
   @Output() selectionChange: EventEmitter<any> = new EventEmitter<any>();
 
-  @ViewChild('select') select: ElementRef = {} as ElementRef;
+  @ViewChild('select') select!: ElementRef;
 
-  @ContentChildren(OptionComponent) optionComponents: QueryList<OptionComponent> = {} as QueryList<OptionComponent>;
+  @ContentChildren(OptionComponent) optionComponents!: QueryList<OptionComponent>;
 
   ngAfterViewInit(): void {
     this.optionComponents?.toArray().forEach((optionComponent) => {

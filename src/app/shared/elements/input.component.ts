@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'cInput',
@@ -19,8 +19,8 @@ import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, O
   `,
   styleUrls: ['./elements.scss'],
 })
-export class InputComponent implements AfterViewInit, OnChanges {
-  @Input('type') type: string = 'text';
+export class InputComponent implements OnChanges {
+  @Input('type') type: 'color' | 'date' | 'datetime-local' | 'email' | 'file' | 'hidden' | 'month' | 'number' | 'password' | 'range' | 'tel' | 'text' | 'time' | 'url' = 'text';
   @Input('disabled') disabled: boolean = false;
   @Input('required') required: boolean = false;
   @Input('active') active: boolean = true;
@@ -32,10 +32,8 @@ export class InputComponent implements AfterViewInit, OnChanges {
   @Input('accept') accept: string = '';
   @Input('label') label: string = '';
 
-  @Output() valueInput = new EventEmitter<Event>();
-  @Output() valueChange = new EventEmitter<Event>();
-
-  allowedInputTypes = new RegExp('color|date|datetime-local|email|file|hidden|month|number|password|range|tel|text|time|url');
+  @Output() cInput = new EventEmitter<Event>();
+  @Output() cChange = new EventEmitter<Event>();
 
   constructor(private element: ElementRef) { }
 
@@ -49,21 +47,15 @@ export class InputComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  ngAfterViewInit(): void {
-    if(!this.allowedInputTypes.test(this.type)) {
-      throw new Error(`Input type cannot be ${this.type}`);
-    }
-  }
-
   onInput(event: Event): void {
     if(this.active) {
-      this.valueInput.emit(event);
+      this.cInput.emit(event);
     }
   }
 
   onChange(event: Event): void {
     if(this.active) {
-      this.valueChange.emit(event);
+      this.cChange.emit(event);
     }
   }
 }

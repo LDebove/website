@@ -9,7 +9,7 @@ import { Component, ElementRef, HostListener, Input, ViewChild } from '@angular/
 })
 export class HintComponent {
   @Input('text') text: string = '';
-  @ViewChild('hintElement') hintElement: ElementRef = {} as ElementRef;
+  @ViewChild('hintElement') hintElement!: ElementRef;
 
   // allows mobile support
   tooltipVisible: boolean = false;

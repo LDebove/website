@@ -11,10 +11,10 @@ import { Component, Output, EventEmitter, Input } from '@angular/core';
   styleUrls: ['./elements.scss']
 })
 export class ThemeToggleComponent {
-  @Output() toggleChange = new EventEmitter<boolean>();
   @Input('checked') checked: boolean = false;
+  @Output() checkedChange = new EventEmitter<boolean>();
 
   onChange(): void {
-    this.toggleChange.emit(this.checked);
+    this.checkedChange.emit(this.checked);
   }
 }
