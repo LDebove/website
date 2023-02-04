@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostListener, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterContentChecked, AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, ViewChild, ViewContainerRef } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { PopupService } from './services/popup.service';
 
@@ -7,24 +7,32 @@ import { PopupService } from './services/popup.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements AfterViewInit, AfterContentChecked {
   title = 'website';
   modalOpen: boolean = false;
   feedbackOpen: boolean = false;
+  feedbackHidden: boolean = false;
 
   @ViewChild('modalContainer', { read: ViewContainerRef }) modalContainer!: ViewContainerRef;
   @ViewChild('feedbackContainer', { read: ViewContainerRef }) feedbackContainer!: ViewContainerRef;
 
   @ViewChild('modal') modal!: ElementRef;
+  @ViewChild('feedback') feedback!: ElementRef;
   @ViewChild('feedbackOverlay') feedbackOverlay!: ElementRef;
 
-  constructor(translate: TranslateService, private popup: PopupService) {
+  constructor(translate: TranslateService, private popup: PopupService, private cdr: ChangeDetectorRef) {
     translate.setDefaultLang('en');
     translate.use('en');
   }
 
-  @HostListener('window:click') clickOutsideModal() {
+  @HostListener('window:click') clickOutsideModal(): void {
     this.closeModal();
+  }
+
+  @HostListener('window:resize') windowResize(): void {
+    if(this.feedbackHidden) {
+      this.showFeedback();
+    }
   }
 
   ngAfterViewInit(): void {
@@ -33,6 +41,14 @@ export class AppComponent implements AfterViewInit {
 
     this.modal.nativeElement.addEventListener('click', (event: Event) => {
       event.stopPropagation();
+    });
+
+    ['mouseenter', 'touchstart'].forEach(eventType => {
+      this.feedback.nativeElement.addEventListener(eventType, () => {
+        if(this.feedbackHidden) {
+          this.showFeedback();
+        }
+      });
     });
 
     this.popup.getModalStatus().subscribe({
@@ -57,6 +73,10 @@ export class AppComponent implements AfterViewInit {
         this.feedbackOpen = status;
       }
     });
+  }
+
+  ngAfterContentChecked(): void {
+    this.cdr.detectChanges();
   }
 
   closeModal(): void {
@@ -99,5 +119,20 @@ export class AppComponent implements AfterViewInit {
         break;
     }
     (<HTMLElement>this.feedbackOverlay.nativeElement).style.alignItems = flex;
+  }
+
+  showFeedback(): void {
+    let feedbackElement = <HTMLElement>this.feedback.nativeElement;
+    feedbackElement.style.removeProperty('top');
+    feedbackElement.classList.remove('hidden');
+    this.feedbackHidden = false;
+  }
+
+  hideFeedback(): void {
+    let feedbackElement = <HTMLElement>this.feedback.nativeElement;
+    let bodyRect = document.body.getBoundingClientRect();
+    feedbackElement.style.top = `${bodyRect.height - 10}px`;
+    feedbackElement.classList.add('hidden');
+    this.feedbackHidden = true;
   }
 }

@@ -7,7 +7,8 @@
 </div>
 
 <div class="custom-feedback-overlay" [ngClass]="{'closed': !feedbackOpen}" #feedbackOverlay>
-  <div class="feedback-container">
+  <div class="feedback-container" #feedback>
+    <button class="hide-button" (click)="hideFeedback()">-</button>
     <ng-container #feedbackContainer></ng-container>
   </div>
 </div>

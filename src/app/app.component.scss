@@ -45,7 +45,7 @@
     background-color: var(--color-3);
     justify-content: center;
     align-items: center;
-    overflow: auto;
+    overflow: hidden;
 
     .close-button {
       display: flex;
@@ -80,8 +80,9 @@
   left: 0;
   padding: 25px;
   box-sizing: border-box;
-  pointer-events: all;
+  pointer-events: none;
   z-index: 1000;
+  overflow: hidden;
 
   &.closed {
     display: none;
@@ -89,6 +90,7 @@
 
   .feedback-container {
     display: flex;
+    position: relative;
     min-width: 200px;
     min-height: 50px;
     max-width: calc(100vw - 15px);
@@ -96,9 +98,43 @@
     border-radius: 5px;
     box-sizing: border-box;
     border: 1px solid var(--highlight-color-1);
-    background-color: var(--color-3);
+    background-color: var(--color-5);
+    color: #FFFFFF;
     justify-content: center;
     align-items: center;
     overflow: auto;
+    pointer-events: auto;
+
+    &.hidden {
+      position: absolute;
+      padding-top: 25px;
+
+      .hide-button {
+        display: none;
+      }
+    }
+
+    .hide-button {
+      display: flex;
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      top: 2px;
+      right: 2px;
+      background-color: transparent;
+      color: #FFFFFF;
+      border: 0;
+      justify-content: center;
+      align-items: center;
+      border-radius: 5px;
+      box-sizing: border-box;
+      font-weight: bold;
+      font-size: larger;
+      cursor: pointer;
+
+      &:hover {
+        background-color: var(--highlight-color-2);
+      }
+    }
   }
 }
