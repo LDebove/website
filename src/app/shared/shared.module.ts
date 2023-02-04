@@ -16,6 +16,7 @@ import { ButtonComponent } from './elements/button.component';
 import { LoaderComponent } from './elements/loader.component';
 import { HintComponent } from './elements/hint.component';
 import { TooltipDirective } from './directives/tooltip.directive';
+import { FeedbackActionDirective } from './directives/feedback-action.directive';
 
 
 
@@ -34,7 +35,8 @@ import { TooltipDirective } from './directives/tooltip.directive';
     ButtonComponent,
     LoaderComponent,
     HintComponent,
-    TooltipDirective
+    TooltipDirective,
+    FeedbackActionDirective
   ],
   imports: [
     CommonModule,
@@ -56,7 +58,8 @@ import { TooltipDirective } from './directives/tooltip.directive';
     ButtonComponent,
     LoaderComponent,
     HintComponent,
-    TooltipDirective
+    TooltipDirective,
+    FeedbackActionDirective
   ]
 })
 export class SharedModule { }

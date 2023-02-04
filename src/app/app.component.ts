@@ -81,6 +81,9 @@ export class AppComponent implements AfterViewInit, AfterContentChecked {
           }
         });
         this.feedbackOpen = status;
+        if(this.feedbackOpen) {
+          this.showFeedback();
+        }
       }
     });
   }
