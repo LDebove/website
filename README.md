@@ -38,3 +38,7 @@ components:
 - file manager
 - portfolio
 - todo
+
+title
+cookies (theme, language)
+CV

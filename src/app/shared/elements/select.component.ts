@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ContentChildren, ElementRef, EventEmitter, forwardRef, Output, QueryList, ViewChild } from '@angular/core';
+import { Component, ContentChildren, ElementRef, EventEmitter, forwardRef, Output, QueryList, ViewChild } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { OptionComponent } from './option.component';
 
@@ -6,7 +6,7 @@ import { OptionComponent } from './option.component';
   selector: 'cSelect',
   template: `
     <div class="custom-select">
-      <select [formControl]="control" #select>
+      <select [formControl]="control" #select (change)="onChange()">
         <ng-content></ng-content>
       </select>
     </div>
@@ -20,7 +20,7 @@ import { OptionComponent } from './option.component';
     }
   ]
 })
-export class SelectComponent implements AfterViewInit, ControlValueAccessor {
+export class SelectComponent implements ControlValueAccessor {
   @Output() selectionChange: EventEmitter<any> = new EventEmitter<any>();
 
   @ViewChild('select') select!: ElementRef;
@@ -32,14 +32,15 @@ export class SelectComponent implements AfterViewInit, ControlValueAccessor {
   _onTouched = () => {};
   //#endregion
 
-  ngAfterViewInit(): void {
+  onChange(): void {
+    let selectedOption = (<HTMLSelectElement>this.select.nativeElement).selectedOptions[0];
+    let optionValue: any = undefined;
     this.optionComponents?.toArray().forEach((optionComponent) => {
-      optionComponent.selectionChange.subscribe({
-        next: (value: any) => {
-          this.selectionChange.emit(value);
-        }
-      });
-    })
+      if(optionComponent.option === selectedOption) {
+        optionValue = optionComponent.value;
+      }
+    });
+    this.selectionChange.emit(optionValue);
   }
 
   //#region ControlValueAccessor
