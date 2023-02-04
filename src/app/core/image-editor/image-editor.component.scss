@@ -50,6 +50,10 @@
   background-color: var(--color-4);
   border: 1px solid var(--highlight-color-1);
 
+  &:hover {
+    border: 1px solid var(--highlight-color-2);
+  }
+
   .title {
     margin: 0;
   }
@@ -70,8 +74,4 @@
       margin: 0 0 auto auto;
     }
   }
-}
-
-.tool-box:hover {
-  border: 1px solid var(--highlight-color-2);
 }
