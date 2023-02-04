@@ -17,8 +17,4 @@ export class TerrariaPixelartComponent implements AfterViewInit {
   ngAfterViewInit(): void {
   }
 
-  test(): void {
-    console.log(this.group.value);
-  }
-
 }

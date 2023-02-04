@@ -36,7 +36,7 @@
       <cHint class="hint" [text]="'IMAGE-EDITOR.OUTLINE-ADDITION.HINT' | translate"></cHint>
     </div>
     <div class="form-control">
-      <cInput type="color" [label]="'IMAGE-EDITOR.OUTLINE-COLOR.TEXT' | translate" value="#FFFFFF"
+      <cInput type="color" [label]="'IMAGE-EDITOR.OUTLINE-COLOR.TEXT' | translate" [formControl]="outlineColorFormControl"
         (cChange)="setOutlineColor($event.target!)"></cInput>
       <cHint class="hint" [text]="'IMAGE-EDITOR.OUTLINE-COLOR.HINT' | translate"></cHint>
     </div>

@@ -59,7 +59,7 @@ export class AppComponent implements AfterViewInit, AfterContentChecked {
 
     this.popup.getFeedbackStatus().subscribe({
       next: (status) => {
-        let observable = this.popup.getFeedbackOptions().subscribe({
+        let subscription = this.popup.getFeedbackOptions().subscribe({
           next: (options) => {
             if(options) {
               this.setFeedbackHorizontalAlign(options.horizontalAlign);
@@ -77,7 +77,7 @@ export class AppComponent implements AfterViewInit, AfterContentChecked {
             }
           },
           complete: () => {
-            observable.unsubscribe();
+            subscription.unsubscribe();
           }
         });
         this.feedbackOpen = status;
