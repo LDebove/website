@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
-import * as light from 'src/assets/themes/light-mode.json'
-import * as dark from 'src/assets/themes/dark-mode.json'
+import * as light from 'src/assets/themes/light-mode.json';
+import * as dark from 'src/assets/themes/dark-mode.json';
 
 @Injectable({
   providedIn: 'root'
