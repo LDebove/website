@@ -64,6 +64,16 @@ export class AppComponent implements AfterViewInit, AfterContentChecked {
             if(options) {
               this.setFeedbackHorizontalAlign(options.horizontalAlign);
               this.setFeedbackVerticalAlign(options.verticalAlign);
+              if(options.autoHide && options.autoHide >= 0) {
+                setTimeout(() => {
+                  this.hideFeedback();
+                }, options.autoHide);
+              }
+              if(options.autoClose && options.autoClose >= 0) {
+                setTimeout(() => {
+                  this.closeFeedback();
+                }, options.autoClose);
+              }
             }
           },
           complete: () => {
@@ -123,15 +133,16 @@ export class AppComponent implements AfterViewInit, AfterContentChecked {
 
   showFeedback(): void {
     let feedbackElement = <HTMLElement>this.feedback.nativeElement;
-    feedbackElement.style.removeProperty('top');
+    feedbackElement.style.removeProperty('transform');
     feedbackElement.classList.remove('hidden');
     this.feedbackHidden = false;
   }
 
   hideFeedback(): void {
     let feedbackElement = <HTMLElement>this.feedback.nativeElement;
+    let feedbackRect = feedbackElement.getBoundingClientRect();
     let bodyRect = document.body.getBoundingClientRect();
-    feedbackElement.style.top = `${bodyRect.height - 10}px`;
+    feedbackElement.style.transform = `translateY(${bodyRect.height - feedbackRect.y - 15}px)`;
     feedbackElement.classList.add('hidden');
     this.feedbackHidden = true;
   }

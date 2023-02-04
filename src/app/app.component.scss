@@ -104,10 +104,11 @@
     align-items: center;
     overflow: auto;
     pointer-events: auto;
+    transition: transform 0.5s;
 
     &.hidden {
       position: absolute;
-      padding-top: 25px;
+      padding-top: 15px;
 
       .hide-button {
         display: none;

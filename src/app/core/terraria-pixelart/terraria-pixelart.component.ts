@@ -11,6 +11,6 @@ export class TerrariaPixelartComponent implements AfterViewInit {
 
   constructor(private popup: PopupService) { }
   ngAfterViewInit(): void {
-    this.popup.openFeedback(ButtonComponent, {horizontalAlign: 'center', verticalAlign: 'start'});
+    this.popup.openFeedback(ButtonComponent, { horizontalAlign: 'end', verticalAlign: 'end', autoClose: 5000, autoHide: 1000 });
   }
 }

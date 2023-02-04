@@ -5,6 +5,8 @@ import { Subject } from 'rxjs/internal/Subject';
 export interface IFeedbackOptions {
   horizontalAlign: 'start' | 'center' | 'end';
   verticalAlign: 'start' | 'end';
+  autoClose?: number;
+  autoHide?: number;
 }
 
 @Injectable({
