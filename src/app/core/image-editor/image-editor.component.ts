@@ -1,6 +1,7 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subject } from 'rxjs/internal/Subject';
+import { Title } from '@angular/platform-browser';
+import { TranslateService } from '@ngx-translate/core';
 import { CanvasService } from 'src/app/services/canvas.service';
 import { IColorDictionary } from './canvas.functions';
 
@@ -9,7 +10,7 @@ import { IColorDictionary } from './canvas.functions';
   templateUrl: './image-editor.component.html',
   styleUrls: ['./image-editor.component.scss']
 })
-export class ImageEditorComponent implements OnInit, AfterViewInit {
+export class ImageEditorComponent implements AfterViewInit {
   @ViewChild('preview') preview!: ElementRef;
 
   imageForm = new FormGroup({
@@ -34,32 +35,21 @@ export class ImageEditorComponent implements OnInit, AfterViewInit {
   canvasColorNumber: number = 1;
   outlineColor: number[] = [255, 255, 255, 255];
 
-  previewCanvasLoaded: Subject<void> = new Subject<void>();
-
-  workers: Worker[] = [];
-
   activeFunction: any = {
     pixelate: false,
     colorRemover: false,
     outlineAddition: false,
   }
 
-  constructor(private canvasService: CanvasService) { }
-
-  ngOnInit(): void {
-    const worker = new Worker(new URL('./canvas-calculation.worker', import.meta.url));
-    this.previewCanvasLoaded.subscribe({
-      next: () => {
-        this.workers.forEach(w => {
-          w.terminate();
-        });
-        this.getUniqueColors();
-      }
-    });
-    worker.terminate();
-  }
+  constructor(private title: Title, private translate: TranslateService, private canvasService: CanvasService) { }
 
   ngAfterViewInit(): void {
+    this.title.setTitle(`${this.translate.instant('APPS.IMAGE-EDITOR')} - Léo Debove`);
+    this.translate.onLangChange.subscribe({
+      next: () => {
+        this.title.setTitle(`${this.translate.instant('APPS.IMAGE-EDITOR')} - Léo Debove`);
+      }
+    });
     this.imageForm.disable();
     this.previewCanvas = <HTMLCanvasElement>this.preview.nativeElement;
     this.previewCanvasCtx = this.previewCanvas.getContext('2d')!;
@@ -99,29 +89,21 @@ export class ImageEditorComponent implements OnInit, AfterViewInit {
     this.ready = false;
     this.imageLoaded = false;
     this.imageForm.disable();
-    let originalCanvas = this.originalCanvas;
-    let originalCanvasCtx = this.originalCanvasCtx;
-    let previewCanvas = this.previewCanvas;
-    let previewCanvasCtx = this.previewCanvasCtx;
-    let backupCanvas = this.backupCanvas;
-    let backupCanvasCtx = this.backupCanvasCtx;
-    let canvasService = this.canvasService;
-    let previewCanvasLoaded = this.previewCanvasLoaded;
 
     let reader = new FileReader();
-    reader.onload = function (event) {
+    reader.onload = (event) => {
       let img = new Image();
-      img.onload = function () {
-        originalCanvas.width = img.width;
-        originalCanvas.height = img.height;
-        canvasService.drawImage(originalCanvasCtx, img, 0, 0);
-        previewCanvas.width = img.width;
-        previewCanvas.height = img.height;
-        canvasService.drawImage(previewCanvasCtx, img, 0, 0);
-        backupCanvas.width = img.width;
-        backupCanvas.height = img.height;
-        canvasService.drawImage(backupCanvasCtx, img, 0, 0);
-        previewCanvasLoaded.next();
+      img.onload = () => {
+        this.originalCanvas.width = img.width;
+        this.originalCanvas.height = img.height;
+        this.canvasService.drawImage(this.originalCanvasCtx, img, 0, 0);
+        this.previewCanvas.width = img.width;
+        this.previewCanvas.height = img.height;
+        this.canvasService.drawImage(this.previewCanvasCtx, img, 0, 0);
+        this.backupCanvas.width = img.width;
+        this.backupCanvas.height = img.height;
+        this.canvasService.drawImage(this.backupCanvasCtx, img, 0, 0);
+        this.getUniqueColors();
       }
       img.src = <string>event.target!.result;
     }
