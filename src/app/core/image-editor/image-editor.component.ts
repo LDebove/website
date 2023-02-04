@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs/internal/Subject';
 import { CanvasService } from 'src/app/services/canvas.service';
 import { IColorDictionary } from './canvas.functions';
@@ -9,14 +10,20 @@ import { IColorDictionary } from './canvas.functions';
   styleUrls: ['./image-editor.component.scss']
 })
 export class ImageEditorComponent implements OnInit, AfterViewInit {
-  @ViewChild('preview') preview: ElementRef = {} as ElementRef;
+  @ViewChild('preview') preview!: ElementRef;
 
-  originalCanvas: HTMLCanvasElement = {} as HTMLCanvasElement;
-  originalCanvasCtx: CanvasRenderingContext2D = {} as CanvasRenderingContext2D;
-  previewCanvas: HTMLCanvasElement = {} as HTMLCanvasElement;
-  previewCanvasCtx: CanvasRenderingContext2D = {} as CanvasRenderingContext2D;
-  backupCanvas: HTMLCanvasElement = {} as HTMLCanvasElement;
-  backupCanvasCtx: CanvasRenderingContext2D = {} as CanvasRenderingContext2D;
+  imageForm = new FormGroup({
+    pixelate: new FormControl('1', [ Validators.min(1), Validators.max(1000) ]),
+    colorRemover: new FormControl('1', [ Validators.min(1) ]),
+    outlineAddition: new FormControl('0', [ Validators.min(0) ])
+  });
+
+  originalCanvas!: HTMLCanvasElement;
+  originalCanvasCtx!: CanvasRenderingContext2D;
+  previewCanvas!: HTMLCanvasElement;
+  previewCanvasCtx!: CanvasRenderingContext2D;
+  backupCanvas!: HTMLCanvasElement;
+  backupCanvasCtx!: CanvasRenderingContext2D;
 
   ready: boolean = false;
   colorReady: boolean = false;
@@ -53,6 +60,7 @@ export class ImageEditorComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.imageForm.disable();
     this.previewCanvas = <HTMLCanvasElement>this.preview.nativeElement;
     this.previewCanvasCtx = this.previewCanvas.getContext('2d')!;
     this.originalCanvas = document.createElement('canvas');
@@ -73,15 +81,25 @@ export class ImageEditorComponent implements OnInit, AfterViewInit {
     this.activeFunction[functionKey] = true;
   }
 
+  initFormValues(): void {
+    this.imageForm.patchValue({
+      pixelate: '1',
+      colorRemover: '1',
+      outlineAddition: '0'
+    });
+  }
+
   /**
    * draw the input image inside the canvas
    * @param imageLoadEvent Event
    */
   setCanvas(imageLoadEvent: Event): void {
+    this.initFormValues();
     this.canvasChangeIndicator = !this.canvasChangeIndicator;
     this.ready = false;
     this.colorReady = false;
     this.imageLoaded = false;
+    this.imageForm.disable();
     let originalCanvas = this.originalCanvas;
     let originalCanvasCtx = this.originalCanvasCtx;
     let previewCanvas = this.previewCanvas;
@@ -111,6 +129,8 @@ export class ImageEditorComponent implements OnInit, AfterViewInit {
     reader.readAsDataURL((<any>imageLoadEvent.target!).files[0]);
     this.ready = true;
     this.imageLoaded = true;
+    this.imageForm.get('pixelate')?.enable();
+    this.imageForm.get('outlineAddition')?.enable();
   }
 
   /**
@@ -173,7 +193,7 @@ export class ImageEditorComponent implements OnInit, AfterViewInit {
    * uses web workers to perform calculations
    */
   getUniqueColors(): void {
-    this.colorReady = false;
+    this.imageForm.get('colorRemover')?.disable();
     this.ready = false;
     if (typeof Worker !== 'undefined') {
       const worker = new Worker(new URL('./canvas-calculation.worker', import.meta.url));
@@ -181,9 +201,17 @@ export class ImageEditorComponent implements OnInit, AfterViewInit {
       worker.onmessage = ({ data }) => {
         if (data.function === 'getUniqueColors') {
           this.canvasColors = data.response;
+          let colorRemoverFormControl = this.imageForm.get('colorRemover');
+          colorRemoverFormControl?.removeValidators(Validators.max(this.canvasColorNumber));
           this.canvasColorNumber = Object.keys(this.canvasColors).length;
+          console.log(this.canvasColorNumber)
+          colorRemoverFormControl?.addValidators(Validators.max(this.canvasColorNumber));
+          colorRemoverFormControl?.updateValueAndValidity();
+          this.imageForm.patchValue({
+            colorRemover: `${this.canvasColorNumber}`
+          });
+          this.imageForm.get('colorRemover')?.enable();
           worker.terminate();
-          this.colorReady = true;
           this.ready = true;
         }
       };
@@ -195,7 +223,15 @@ export class ImageEditorComponent implements OnInit, AfterViewInit {
       });
     } else {
       this.canvasColors = this.canvasService.getUniqueColors(this.previewCanvasCtx);
+      let colorRemoverFormControl = this.imageForm.get('colorRemover');
+      colorRemoverFormControl?.removeValidators(Validators.max(this.canvasColorNumber));
       this.canvasColorNumber = Object.keys(this.canvasColors).length;
+      colorRemoverFormControl?.addValidators(Validators.max(this.canvasColorNumber));
+      colorRemoverFormControl?.updateValueAndValidity();
+      this.imageForm.patchValue({
+        colorRemover: `${this.canvasColorNumber}`
+      });
+      this.imageForm.get('colorRemover')?.enable();
       this.colorReady = true;
       this.ready = true;
     }
