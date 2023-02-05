@@ -11,7 +11,7 @@
     <cOption value="en" [selected]="true">🇬🇧</cOption>
     <cOption value="fr">🇫🇷</cOption>
   </cSelect>
-  <cThemeToggle (toggleChange)="setColorTheme($event)"></cThemeToggle>
+  <cThemeToggle (checkedChange)="setColorTheme($event)"></cThemeToggle>
 </div>
 <div *ngIf="!mobileDisplay" class="header-link-container" [ngClass]="{'mobile': mobileUa}" horizontalScrolling scrollIndicator>
   <div *ngFor="let appLink of appLinks" class="header-link" routerLinkActive="active" (isActiveChange)="headerInit ? scrollIntoLink() : undefined">

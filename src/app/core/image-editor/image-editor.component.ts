@@ -1,5 +1,7 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Subject } from 'rxjs/internal/Subject';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
+import { TranslateService } from '@ngx-translate/core';
 import { CanvasService } from 'src/app/services/canvas.service';
 import { IColorDictionary } from './canvas.functions';
 
@@ -8,18 +10,24 @@ import { IColorDictionary } from './canvas.functions';
   templateUrl: './image-editor.component.html',
   styleUrls: ['./image-editor.component.scss']
 })
-export class ImageEditorComponent implements OnInit, AfterViewInit {
-  @ViewChild('preview') preview: ElementRef = {} as ElementRef;
+export class ImageEditorComponent implements AfterViewInit {
+  @ViewChild('preview') preview!: ElementRef;
 
-  originalCanvas: HTMLCanvasElement = {} as HTMLCanvasElement;
-  originalCanvasCtx: CanvasRenderingContext2D = {} as CanvasRenderingContext2D;
-  previewCanvas: HTMLCanvasElement = {} as HTMLCanvasElement;
-  previewCanvasCtx: CanvasRenderingContext2D = {} as CanvasRenderingContext2D;
-  backupCanvas: HTMLCanvasElement = {} as HTMLCanvasElement;
-  backupCanvasCtx: CanvasRenderingContext2D = {} as CanvasRenderingContext2D;
+  imageForm = new FormGroup({
+    pixelate: new FormControl('1', [ Validators.min(1), Validators.max(1000) ]),
+    colorRemover: new FormControl('1', [ Validators.min(1) ]),
+    outlineAddition: new FormControl('0', [ Validators.min(0) ])
+  });
+  outlineColorFormControl = new FormControl('#FFFFFF');
+
+  originalCanvas!: HTMLCanvasElement;
+  originalCanvasCtx!: CanvasRenderingContext2D;
+  previewCanvas!: HTMLCanvasElement;
+  previewCanvasCtx!: CanvasRenderingContext2D;
+  backupCanvas!: HTMLCanvasElement;
+  backupCanvasCtx!: CanvasRenderingContext2D;
 
   ready: boolean = false;
-  colorReady: boolean = false;
   imageLoaded: boolean = false;
 
   canvasChangeIndicator: boolean = false;
@@ -27,32 +35,22 @@ export class ImageEditorComponent implements OnInit, AfterViewInit {
   canvasColorNumber: number = 1;
   outlineColor: number[] = [255, 255, 255, 255];
 
-  previewCanvasLoaded: Subject<void> = new Subject<void>();
-
-  workers: Worker[] = [];
-
   activeFunction: any = {
     pixelate: false,
     colorRemover: false,
     outlineAddition: false,
   }
 
-  constructor(private canvasService: CanvasService) { }
-
-  ngOnInit(): void {
-    const worker = new Worker(new URL('./canvas-calculation.worker', import.meta.url));
-    this.previewCanvasLoaded.subscribe({
-      next: () => {
-        this.workers.forEach(w => {
-          w.terminate();
-        });
-        this.getUniqueColors();
-      }
-    });
-    worker.terminate();
-  }
+  constructor(private title: Title, private translate: TranslateService, private canvasService: CanvasService) { }
 
   ngAfterViewInit(): void {
+    this.title.setTitle(`${this.translate.instant('APPS.IMAGE-EDITOR')} - Léo Debove`);
+    this.translate.onLangChange.subscribe({
+      next: () => {
+        this.title.setTitle(`${this.translate.instant('APPS.IMAGE-EDITOR')} - Léo Debove`);
+      }
+    });
+    this.imageForm.disable();
     this.previewCanvas = <HTMLCanvasElement>this.preview.nativeElement;
     this.previewCanvasCtx = this.previewCanvas.getContext('2d')!;
     this.originalCanvas = document.createElement('canvas');
@@ -73,44 +71,47 @@ export class ImageEditorComponent implements OnInit, AfterViewInit {
     this.activeFunction[functionKey] = true;
   }
 
+  initFormValues(): void {
+    this.imageForm.patchValue({
+      pixelate: '1',
+      colorRemover: '1',
+      outlineAddition: '0'
+    });
+  }
+
   /**
    * draw the input image inside the canvas
    * @param imageLoadEvent Event
    */
   setCanvas(imageLoadEvent: Event): void {
+    this.initFormValues();
     this.canvasChangeIndicator = !this.canvasChangeIndicator;
     this.ready = false;
-    this.colorReady = false;
     this.imageLoaded = false;
-    let originalCanvas = this.originalCanvas;
-    let originalCanvasCtx = this.originalCanvasCtx;
-    let previewCanvas = this.previewCanvas;
-    let previewCanvasCtx = this.previewCanvasCtx;
-    let backupCanvas = this.backupCanvas;
-    let backupCanvasCtx = this.backupCanvasCtx;
-    let canvasService = this.canvasService;
-    let previewCanvasLoaded = this.previewCanvasLoaded;
+    this.imageForm.disable();
 
     let reader = new FileReader();
-    reader.onload = function (event) {
+    reader.onload = (event) => {
       let img = new Image();
-      img.onload = function () {
-        originalCanvas.width = img.width;
-        originalCanvas.height = img.height;
-        canvasService.drawImage(originalCanvasCtx, img, 0, 0);
-        previewCanvas.width = img.width;
-        previewCanvas.height = img.height;
-        canvasService.drawImage(previewCanvasCtx, img, 0, 0);
-        backupCanvas.width = img.width;
-        backupCanvas.height = img.height;
-        canvasService.drawImage(backupCanvasCtx, img, 0, 0);
-        previewCanvasLoaded.next();
+      img.onload = () => {
+        this.originalCanvas.width = img.width;
+        this.originalCanvas.height = img.height;
+        this.canvasService.drawImage(this.originalCanvasCtx, img, 0, 0);
+        this.previewCanvas.width = img.width;
+        this.previewCanvas.height = img.height;
+        this.canvasService.drawImage(this.previewCanvasCtx, img, 0, 0);
+        this.backupCanvas.width = img.width;
+        this.backupCanvas.height = img.height;
+        this.canvasService.drawImage(this.backupCanvasCtx, img, 0, 0);
+        this.getUniqueColors();
       }
       img.src = <string>event.target!.result;
     }
     reader.readAsDataURL((<any>imageLoadEvent.target!).files[0]);
     this.ready = true;
     this.imageLoaded = true;
+    this.imageForm.get('pixelate')?.enable();
+    this.imageForm.get('outlineAddition')?.enable();
   }
 
   /**
@@ -126,30 +127,15 @@ export class ImageEditorComponent implements OnInit, AfterViewInit {
    * uses web workers to perform calculations
    */
   removeColorTransparency(): void {
-    if (typeof Worker !== 'undefined') {
-      const worker = new Worker(new URL('./canvas-calculation.worker', import.meta.url));
-      this.workers.push(worker);
-      worker.onmessage = ({ data }) => {
-        if (data.function === 'removeColorTransparency') {
-          let imageData = this.previewCanvasCtx.getImageData(0, 0, this.previewCanvas.width, this.previewCanvas.height);
-          imageData.data.set(data.response);
-          this.previewCanvasCtx.putImageData(imageData, 0, 0);
-          this.canvasService.drawImage(this.backupCanvasCtx, this.previewCanvas, 0, 0);
+    let subscription = this.canvasService.isWorking().subscribe({
+      next: (working) => {
+        if(!working) {
           this.getUniqueColors();
-          worker.terminate();
+          subscription.unsubscribe();
         }
-      };
-      worker.postMessage({
-        function: 'removeColorTransparency',
-        params: [
-          new Uint8Array(this.previewCanvasCtx.getImageData(0, 0, this.previewCanvas.width, this.previewCanvas.height).data.buffer)
-        ]
-      });
-    } else {
-      this.canvasService.removeColorTransparency(this.previewCanvasCtx);
-      this.canvasService.drawImage(this.backupCanvasCtx, this.previewCanvas, 0, 0);
-      this.getUniqueColors();
-    }
+      }
+    });
+    this.canvasService.removeColorTransparency(this.previewCanvasCtx, this.backupCanvasCtx);
   }
 
   /**
@@ -173,32 +159,22 @@ export class ImageEditorComponent implements OnInit, AfterViewInit {
    * uses web workers to perform calculations
    */
   getUniqueColors(): void {
-    this.colorReady = false;
+    this.imageForm.get('colorRemover')?.disable();
     this.ready = false;
-    if (typeof Worker !== 'undefined') {
-      const worker = new Worker(new URL('./canvas-calculation.worker', import.meta.url));
-      this.workers.push(worker);
-      worker.onmessage = ({ data }) => {
-        if (data.function === 'getUniqueColors') {
-          this.canvasColors = data.response;
-          this.canvasColorNumber = Object.keys(this.canvasColors).length;
-          worker.terminate();
-          this.colorReady = true;
-          this.ready = true;
-        }
-      };
-      worker.postMessage({
-        function: 'getUniqueColors',
-        params: [
-          new Uint8Array(this.previewCanvasCtx.getImageData(0, 0, this.previewCanvas.width, this.previewCanvas.height).data.buffer)
-        ]
-      });
-    } else {
-      this.canvasColors = this.canvasService.getUniqueColors(this.previewCanvasCtx);
+    let colorRemoverFormControl = this.imageForm.get('colorRemover');
+    colorRemoverFormControl?.removeValidators(Validators.max(this.canvasColorNumber));
+
+    this.canvasService.getUniqueColors(this.previewCanvasCtx).then(result => {
+      this.canvasColors = result;
       this.canvasColorNumber = Object.keys(this.canvasColors).length;
-      this.colorReady = true;
+      colorRemoverFormControl?.addValidators(Validators.max(this.canvasColorNumber));
+      colorRemoverFormControl?.updateValueAndValidity();
+      this.imageForm.patchValue({
+        colorRemover: `${this.canvasColorNumber}`
+      });
+      this.imageForm.get('colorRemover')?.enable();
       this.ready = true;
-    }
+    });
   }
 
   /**
@@ -217,37 +193,17 @@ export class ImageEditorComponent implements OnInit, AfterViewInit {
       this.setFunctionActive('colorRemover');
     }
     this.ready = false;
-    if (typeof Worker !== 'undefined') {
-      const worker = new Worker(new URL('./canvas-calculation.worker', import.meta.url));
-      this.workers.push(worker);
-      worker.onmessage = ({ data }) => {
-        if (data.function === 'replaceLeastUsedColors') {
-          let imageData = this.previewCanvasCtx.getImageData(0, 0, this.previewCanvas.width, this.previewCanvas.height);
-          imageData.data.set(data.response.colorBuffer);
-          this.previewCanvasCtx.putImageData(imageData, 0, 0);
-          worker.terminate();
-          this.ready = true;
-        }
-      };
-      worker.postMessage({
-        function: 'replaceLeastUsedColors',
-        params: [
-          colorsToReplace,
-          this.canvasColors,
-          new Uint8Array(this.previewCanvasCtx.getImageData(0, 0, this.previewCanvas.width, this.previewCanvas.height).data.buffer)
-        ]
-      });
-    } else {
-      let result = this.canvasService.replaceLeastUsedColors(
-        colorsToReplace,
-        this.canvasColors,
-        new Uint8Array(this.previewCanvasCtx.getImageData(0, 0, this.previewCanvas.width, this.previewCanvas.height).data.buffer)
-      );
+
+    this.canvasService.replaceLeastUsedColors(
+      colorsToReplace,
+      this.canvasColors,
+      new Uint8Array(this.previewCanvasCtx.getImageData(0, 0, this.previewCanvas.width, this.previewCanvas.height).data.buffer)
+    ).then(result => {
       let imageData = this.previewCanvasCtx.getImageData(0, 0, this.previewCanvas.width, this.previewCanvas.height);
       imageData.data.set(result.colorBuffer);
       this.previewCanvasCtx.putImageData(imageData, 0, 0);
       this.ready = true;
-    }
+    });
   }
 
   /**
@@ -265,39 +221,20 @@ export class ImageEditorComponent implements OnInit, AfterViewInit {
       this.setFunctionActive('outlineAddition');
     }
     this.ready = false;
-    if (typeof Worker !== 'undefined') {
-      const worker = new Worker(new URL('./canvas-calculation.worker', import.meta.url));
-      this.workers.push(worker);
-      worker.onmessage = ({ data }) => {
-        if (data.function === 'addOutline') {
-          let imageData = this.previewCanvasCtx.getImageData(0, 0, this.previewCanvas.width, this.previewCanvas.height);
-          imageData.data.set(data.response);
-          this.previewCanvasCtx.putImageData(imageData, 0, 0);
-          worker.terminate();
+
+    let subscription = this.canvasService.isWorking().subscribe({
+      next: (working) => {
+        if(!working) {
           this.ready = true;
+          subscription.unsubscribe();
         }
-      };
-      worker.postMessage({
-        function: 'addOutline',
-        params: [
-          new Uint8Array(this.previewCanvasCtx.getImageData(0, 0, this.previewCanvas.width, this.previewCanvas.height).data.buffer),
-          this.previewCanvas.width,
-          outlineWidth,
-          this.outlineColor
-        ]
-      });
-    } else {
-      let result = this.canvasService.addOutline(
-        new Uint8Array(this.previewCanvasCtx.getImageData(0, 0, this.previewCanvas.width, this.previewCanvas.height).data.buffer),
-        this.previewCanvas.width,
-        outlineWidth,
-        this.outlineColor
-      );
-      let imageData = this.previewCanvasCtx.getImageData(0, 0, this.previewCanvas.width, this.previewCanvas.height);
-      imageData.data.set(result);
-      this.previewCanvasCtx.putImageData(imageData, 0, 0);
-      this.ready = true;
-    }
+      }
+    });
+    this.canvasService.addOutline(
+      this.previewCanvasCtx,
+      outlineWidth,
+      this.outlineColor
+    );
   }
 
   /**

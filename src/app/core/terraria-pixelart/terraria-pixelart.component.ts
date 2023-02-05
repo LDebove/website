@@ -1,6 +1,6 @@
 import { AfterViewInit, Component } from '@angular/core';
-import { PopupService } from 'src/app/services/popup.service';
-import { ButtonComponent } from 'src/app/shared/elements/button.component';
+import { Title } from '@angular/platform-browser';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-terraria-pixelart',
@@ -9,8 +9,15 @@ import { ButtonComponent } from 'src/app/shared/elements/button.component';
 })
 export class TerrariaPixelartComponent implements AfterViewInit {
 
-  constructor(private popup: PopupService) { }
+  constructor(private title: Title, private translate: TranslateService) { }
+
   ngAfterViewInit(): void {
-    this.popup.openFeedback(ButtonComponent, {horizontalAlign: 'center', verticalAlign: 'start'});
+    this.title.setTitle(`${this.translate.instant('APPS.TERRARIA-PIXELART')} - Léo Debove`);
+    this.translate.onLangChange.subscribe({
+      next: () => {
+        this.title.setTitle(`${this.translate.instant('APPS.TERRARIA-PIXELART')} - Léo Debove`);
+      }
+    });
   }
+
 }

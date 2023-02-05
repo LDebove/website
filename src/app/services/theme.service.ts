@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import * as light from 'src/assets/themes/light-mode.json';
+import * as dark from 'src/assets/themes/dark-mode.json';
 
 @Injectable({
   providedIn: 'root'
@@ -18,9 +20,9 @@ export class ThemeService {
   setColorTheme(lightMode: boolean): void {
     let themeSelected: any;
     if(lightMode) {
-      themeSelected = require('src/assets/themes/light-mode.json');
+      themeSelected = light;
     } else {
-      themeSelected = require('src/assets/themes/dark-mode.json');
+      themeSelected = dark;
     }
     Object.keys(themeSelected).forEach(key => {
       document.documentElement.style.setProperty(`--${key}`, themeSelected[key]);

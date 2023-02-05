@@ -1,7 +1,7 @@
 import { AfterViewInit, Directive, ElementRef, HostListener, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 @Directive({
-  selector: '[appPreserveCanvasAspectRatio]'
+  selector: '[preserveCanvasAspectRatio]'
 })
 export class PreserveCanvasAspectRatioDirective implements AfterViewInit, OnChanges {
 

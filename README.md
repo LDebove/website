@@ -29,21 +29,16 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ## TODO
 
 components:
-- hint (help) (component)
-- tooltip (directive)
 - table (component)
   - stepper
 - drag & drop (directive)
-- dialog (component)
-- snackbar (component)
 
-- image tools
-  - pixelate
-  - remove color transparency
-  - reduce number of colors
-  - border image (transparency)
 - terraria pixelart
 - tww3 random lord
 - file manager
 - portfolio
 - todo
+
+title
+cookies (theme, language)
+CV

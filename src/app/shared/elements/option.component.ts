@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'cOption',
@@ -11,7 +11,7 @@ export class OptionComponent implements AfterViewInit {
   @Input('value') value: any = undefined;
   @Input('selected') selected: boolean = false;
 
-  @Output() selectionChange = new EventEmitter<any>();
+  option!: HTMLOptionElement;
 
   constructor(private element: ElementRef) { }
 
@@ -22,9 +22,7 @@ export class OptionComponent implements AfterViewInit {
       throw new Error('Option content must be text only');
     } else {
       let optionElement: HTMLOptionElement = new Option(this.element.nativeElement.childNodes[0].wholeText, undefined, this.selected, this.selected);
-      optionElement.addEventListener('click', () => {
-        this.selectionChange.emit(this.value);
-      });
+      this.option = optionElement;
       this.element.nativeElement.parentElement.append(optionElement);
     }
   }

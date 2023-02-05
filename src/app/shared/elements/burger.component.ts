@@ -16,7 +16,7 @@ export class BurgerComponent implements AfterViewInit {
   @Input() checked: boolean = false;
   @Output() checkedChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  @ViewChild('checkbox') checkbox: ElementRef = {} as ElementRef;
+  @ViewChild('checkbox') checkbox!: ElementRef;
 
   ngAfterViewInit(): void {
     this.checkbox.nativeElement.addEventListener('change', () => {

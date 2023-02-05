@@ -59,18 +59,31 @@ export class AppComponent implements AfterViewInit, AfterContentChecked {
 
     this.popup.getFeedbackStatus().subscribe({
       next: (status) => {
-        let observable = this.popup.getFeedbackOptions().subscribe({
+        let subscription = this.popup.getFeedbackOptions().subscribe({
           next: (options) => {
             if(options) {
               this.setFeedbackHorizontalAlign(options.horizontalAlign);
               this.setFeedbackVerticalAlign(options.verticalAlign);
+              if(options.autoHide && options.autoHide >= 0) {
+                setTimeout(() => {
+                  this.hideFeedback();
+                }, options.autoHide);
+              }
+              if(options.autoClose && options.autoClose >= 0) {
+                setTimeout(() => {
+                  this.closeFeedback();
+                }, options.autoClose);
+              }
             }
           },
           complete: () => {
-            observable.unsubscribe();
+            subscription.unsubscribe();
           }
         });
         this.feedbackOpen = status;
+        if(this.feedbackOpen) {
+          this.showFeedback();
+        }
       }
     });
   }
@@ -123,15 +136,16 @@ export class AppComponent implements AfterViewInit, AfterContentChecked {
 
   showFeedback(): void {
     let feedbackElement = <HTMLElement>this.feedback.nativeElement;
-    feedbackElement.style.removeProperty('top');
+    feedbackElement.style.removeProperty('transform');
     feedbackElement.classList.remove('hidden');
     this.feedbackHidden = false;
   }
 
   hideFeedback(): void {
     let feedbackElement = <HTMLElement>this.feedback.nativeElement;
+    let feedbackRect = feedbackElement.getBoundingClientRect();
     let bodyRect = document.body.getBoundingClientRect();
-    feedbackElement.style.top = `${bodyRect.height - 10}px`;
+    feedbackElement.style.transform = `translateY(${bodyRect.height - feedbackRect.y - 15}px)`;
     feedbackElement.classList.add('hidden');
     this.feedbackHidden = true;
   }

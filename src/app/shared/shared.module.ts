@@ -6,7 +6,7 @@ import { SafeUrlPipe } from './pipes/safe-url.pipe';
 import { HorizontalScrollingDirective } from './directives/horizontal-scrolling.directive';
 import { ToggleComponent } from './elements/toggle.component';
 import { ThemeToggleComponent } from './elements/theme-toggle.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SelectComponent } from './elements/select.component';
 import { OptionComponent } from './elements/option.component';
 import { BurgerComponent } from './elements/burger.component';
@@ -16,6 +16,7 @@ import { ButtonComponent } from './elements/button.component';
 import { LoaderComponent } from './elements/loader.component';
 import { HintComponent } from './elements/hint.component';
 import { TooltipDirective } from './directives/tooltip.directive';
+import { FeedbackActionDirective } from './directives/feedback-action.directive';
 
 
 
@@ -34,11 +35,13 @@ import { TooltipDirective } from './directives/tooltip.directive';
     ButtonComponent,
     LoaderComponent,
     HintComponent,
-    TooltipDirective
+    TooltipDirective,
+    FeedbackActionDirective
   ],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
     CommonModule,
@@ -56,7 +59,10 @@ import { TooltipDirective } from './directives/tooltip.directive';
     ButtonComponent,
     LoaderComponent,
     HintComponent,
-    TooltipDirective
+    TooltipDirective,
+    FeedbackActionDirective,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class SharedModule { }

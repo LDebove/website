@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, forwardRef, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
 
 @Component({
   selector: 'cInput',
@@ -8,34 +9,36 @@ import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, O
         <label *ngIf="label !== ''" class="input-label" #labelElement>
           {{ label }}
         </label>
-        <span *ngIf="required" class="input-required">&nbsp;*</span>
+        <span *ngIf="isRequired()" class="input-required">&nbsp;*</span>
       </div>
-      <input class="input"
-      [type]="type" [disabled]="disabled" [value]="value" [placeholder]="placeholder"
-      [min]="min !== undefined ? min : ''" [max]="max !== undefined ? max : ''" [pattern]="pattern ? pattern : '.*'"
-      [accept]="accept"
+      <input class="input" [formControl]="input" [type]="type"
+      [placeholder]="placeholder" [accept]="accept"
       (input)="onInput($event)" (change)="onChange($event)"/>
     </div>
   `,
   styleUrls: ['./elements.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => InputComponent),
+      multi: true
+    }
+  ]
 })
-export class InputComponent implements AfterViewInit, OnChanges {
-  @Input('type') type: string = 'text';
-  @Input('disabled') disabled: boolean = false;
-  @Input('required') required: boolean = false;
-  @Input('active') active: boolean = true;
-  @Input('pattern') pattern: string | undefined = undefined;
-  @Input('value') value: any = '';
-  @Input('placeholder') placeholder: string = '';
-  @Input('min') min: number | undefined = undefined;
-  @Input('max') max: number | undefined = undefined;
-  @Input('accept') accept: string = '';
+export class InputComponent implements OnChanges, ControlValueAccessor {
+  @Input('type') type: 'color' | 'date' | 'datetime-local' | 'email' | 'file' | 'hidden' | 'month' | 'number' | 'password' | 'range' | 'tel' | 'text' | 'time' | 'url' = 'text';
   @Input('label') label: string = '';
+  @Input('placeholder') placeholder: string = '';
+  @Input('accept') accept: string = '';
+  @Input('active') active: boolean = true;
 
-  @Output() valueInput = new EventEmitter<Event>();
-  @Output() valueChange = new EventEmitter<Event>();
+  @Output() cInput = new EventEmitter<Event>();
+  @Output() cChange = new EventEmitter<Event>();
 
-  allowedInputTypes = new RegExp('color|date|datetime-local|email|file|hidden|month|number|password|range|tel|text|time|url');
+  //#region ControlValueAccessor
+  input = new FormControl('');
+  _onTouched = () => {};
+  //#endregion
 
   constructor(private element: ElementRef) { }
 
@@ -49,21 +52,39 @@ export class InputComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  ngAfterViewInit(): void {
-    if(!this.allowedInputTypes.test(this.type)) {
-      throw new Error(`Input type cannot be ${this.type}`);
-    }
+  isRequired(): boolean {
+    return this.input.hasValidator(Validators.required);
   }
 
   onInput(event: Event): void {
     if(this.active) {
-      this.valueInput.emit(event);
+      this.cInput.emit(event);
     }
   }
 
   onChange(event: Event): void {
     if(this.active) {
-      this.valueChange.emit(event);
+      this.cChange.emit(event);
     }
   }
+
+  //#region ControlValueAccessor
+  writeValue(obj: any): void {
+    if(obj) {
+      this.input.patchValue(obj);
+    }
+  }
+
+  registerOnChange(fn: any): void {
+    this.input.valueChanges.subscribe(fn);
+  }
+
+  registerOnTouched(fn: any): void {
+    this._onTouched = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    isDisabled ? this.input.disable() : this.input.enable();
+  }
+  //#endregion
 }
