@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs/internal/Subject';
-import { IColorDictionary, removeColorTransparency, getUniqueColors, replaceLeastUsedColors, addOutline } from '../core/image-editor/canvas.functions';
+import { IColorDictionary, removeColorTransparency, getUniqueColors, replaceLeastUsedColors, addOutline } from './canvas.functions';
 
 @Injectable({
   providedIn: 'root'
@@ -61,7 +61,7 @@ export class CanvasService {
   removeColorTransparency(ctx: CanvasRenderingContext2D, backupCtx: CanvasRenderingContext2D): void {
     this.working.next(true);
     if (typeof Worker !== 'undefined') {
-      const worker = new Worker(new URL('../core/image-editor/canvas-calculation.worker', import.meta.url));
+      const worker = new Worker(new URL('./canvas-calculation.worker', import.meta.url));
       worker.onmessage = ({ data }) => {
         if (data.function === 'removeColorTransparency') {
           let imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -99,7 +99,7 @@ export class CanvasService {
     let colorDictionary: IColorDictionary = {};
     await new Promise<IColorDictionary>(resolve => {
       if(typeof Worker !== 'undefined') {
-        const worker = new Worker(new URL('../core/image-editor/canvas-calculation.worker', import.meta.url));
+        const worker = new Worker(new URL('./canvas-calculation.worker', import.meta.url));
         worker.onmessage = ({ data }) => {
           if (data.function === 'getUniqueColors') {
             colorDictionary = data.response;
@@ -133,7 +133,7 @@ export class CanvasService {
     let object: { canvasColors: IColorDictionary, colorBuffer: Uint8Array } = { canvasColors: {}, colorBuffer: new Uint8Array() };
     await new Promise<{ canvasColors: IColorDictionary, colorBuffer: Uint8Array }>(resolve => {
       if(typeof Worker !== 'undefined') {
-        const worker = new Worker(new URL('../core/image-editor/canvas-calculation.worker', import.meta.url));
+        const worker = new Worker(new URL('./canvas-calculation.worker', import.meta.url));
         worker.onmessage = ({ data }) => {
           if (data.function === 'replaceLeastUsedColors') {
             object = { canvasColors: data.response.canvasColors, colorBuffer: data.response.colorBuffer }
@@ -168,7 +168,7 @@ export class CanvasService {
   addOutline(ctx: CanvasRenderingContext2D, outlineWidth: number, outlineColor: number[]): void {
     this.working.next(true);
     if(typeof Worker !== 'undefined') {
-      const worker = new Worker(new URL('../core/image-editor/canvas-calculation.worker', import.meta.url));
+      const worker = new Worker(new URL('./canvas-calculation.worker', import.meta.url));
       worker.onmessage = ({ data }) => {
         if (data.function === 'addOutline') {
           let imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);

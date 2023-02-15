@@ -15,7 +15,7 @@
   "HOME": {
     "CONCEPT": {
       "TITLE": "Le concept",
-      "TEXT": "Ce site web est sous licence open-source, le lien du dépôt GitHub est disponible ci-dessous. Les applications présentes sur ce site web ont pour but de répondre à divers besoins techniques ou non, démontrer des compétences, et surtout gagner du temps.",
+      "TEXT": "Ce site web est sous licence open-source, il est développé avec Angular 15, le lien du dépôt GitHub est disponible ci-dessous. Les applications présentes sur ce site web ont pour but de répondre à divers besoins techniques ou non, démontrer des compétences, et surtout gagner du temps.",
       "REPOSITORY": "Dépôt GitHub"
     },
     "DEVELOPER": {

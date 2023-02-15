@@ -13,12 +13,12 @@ export class AppComponent implements AfterViewInit, AfterContentChecked {
   feedbackOpen: boolean = false;
   feedbackHidden: boolean = false;
 
-  @ViewChild('modalContainer', { read: ViewContainerRef }) modalContainer!: ViewContainerRef;
-  @ViewChild('feedbackContainer', { read: ViewContainerRef }) feedbackContainer!: ViewContainerRef;
+  @ViewChild('modalContainer', { read: ViewContainerRef }) modalContainer?: ViewContainerRef;
+  @ViewChild('feedbackContainer', { read: ViewContainerRef }) feedbackContainer?: ViewContainerRef;
 
-  @ViewChild('modal') modal!: ElementRef;
-  @ViewChild('feedback') feedback!: ElementRef;
-  @ViewChild('feedbackOverlay') feedbackOverlay!: ElementRef;
+  @ViewChild('modal') modal?: ElementRef;
+  @ViewChild('feedback') feedback?: ElementRef;
+  @ViewChild('feedbackOverlay') feedbackOverlay?: ElementRef;
 
   constructor(translate: TranslateService, private popup: PopupService, private cdr: ChangeDetectorRef) {
     translate.setDefaultLang('en');
@@ -36,15 +36,16 @@ export class AppComponent implements AfterViewInit, AfterContentChecked {
   }
 
   ngAfterViewInit(): void {
-    this.popup.setModalContainer(this.modalContainer);
-    this.popup.setFeedbackContainer(this.feedbackContainer);
 
-    this.modal.nativeElement.addEventListener('click', (event: Event) => {
+    this.popup.setModalContainer(this.modalContainer!);
+    this.popup.setFeedbackContainer(this.feedbackContainer!);
+
+    this.modal?.nativeElement.addEventListener('click', (event: Event) => {
       event.stopPropagation();
     });
 
     ['mouseenter', 'touchstart'].forEach(eventType => {
-      this.feedback.nativeElement.addEventListener(eventType, () => {
+      this.feedback?.nativeElement.addEventListener(eventType, () => {
         if(this.feedbackHidden) {
           this.showFeedback();
         }
@@ -114,7 +115,7 @@ export class AppComponent implements AfterViewInit, AfterContentChecked {
         flex = 'center';
         break;
     }
-    (<HTMLElement>this.feedbackOverlay.nativeElement).style.justifyContent = flex;
+    (<HTMLElement>this.feedbackOverlay?.nativeElement).style.justifyContent = flex;
   }
 
   setFeedbackVerticalAlign(verticalAlign: string): void {
@@ -131,18 +132,18 @@ export class AppComponent implements AfterViewInit, AfterContentChecked {
         flex = 'center';
         break;
     }
-    (<HTMLElement>this.feedbackOverlay.nativeElement).style.alignItems = flex;
+    (<HTMLElement>this.feedbackOverlay?.nativeElement).style.alignItems = flex;
   }
 
   showFeedback(): void {
-    let feedbackElement = <HTMLElement>this.feedback.nativeElement;
+    let feedbackElement = <HTMLElement>this.feedback?.nativeElement;
     feedbackElement.style.removeProperty('transform');
     feedbackElement.classList.remove('hidden');
     this.feedbackHidden = false;
   }
 
   hideFeedback(): void {
-    let feedbackElement = <HTMLElement>this.feedback.nativeElement;
+    let feedbackElement = <HTMLElement>this.feedback?.nativeElement;
     let feedbackRect = feedbackElement.getBoundingClientRect();
     let bodyRect = document.body.getBoundingClientRect();
     feedbackElement.style.transform = `translateY(${bodyRect.height - feedbackRect.y - 15}px)`;

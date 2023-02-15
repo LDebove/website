@@ -23,9 +23,9 @@ import { OptionComponent } from './option.component';
 export class SelectComponent implements ControlValueAccessor {
   @Output() selectionChange: EventEmitter<any> = new EventEmitter<any>();
 
-  @ViewChild('select') select!: ElementRef;
+  @ViewChild('select') select?: ElementRef;
 
-  @ContentChildren(OptionComponent) optionComponents!: QueryList<OptionComponent>;
+  @ContentChildren(OptionComponent) optionComponents?: QueryList<OptionComponent>;
 
   //#region ControlValueAccessor
   control = new FormControl('');
@@ -33,7 +33,7 @@ export class SelectComponent implements ControlValueAccessor {
   //#endregion
 
   onChange(): void {
-    let selectedOption = (<HTMLSelectElement>this.select.nativeElement).selectedOptions[0];
+    let selectedOption = (<HTMLSelectElement>this.select?.nativeElement).selectedOptions[0];
     let optionValue: any = undefined;
     this.optionComponents?.toArray().forEach((optionComponent) => {
       if(optionComponent.option === selectedOption) {

@@ -11,7 +11,7 @@ export class OptionComponent implements AfterViewInit {
   @Input('value') value: any = undefined;
   @Input('selected') selected: boolean = false;
 
-  option!: HTMLOptionElement;
+  option?: HTMLOptionElement;
 
   constructor(private element: ElementRef) { }
 
