@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
-import { CanvasService } from 'src/app/services/canvas.service';
+import { CanvasService } from './canvas.service';
 import { IColorDictionary } from './canvas.functions';
 
 @Component({
@@ -11,7 +11,7 @@ import { IColorDictionary } from './canvas.functions';
   styleUrls: ['./image-editor.component.scss']
 })
 export class ImageEditorComponent implements AfterViewInit {
-  @ViewChild('preview') preview!: ElementRef;
+  @ViewChild('preview') preview?: ElementRef;
 
   imageForm = new FormGroup({
     pixelate: new FormControl('1', [ Validators.min(1), Validators.max(1000) ]),
@@ -20,12 +20,12 @@ export class ImageEditorComponent implements AfterViewInit {
   });
   outlineColorFormControl = new FormControl('#FFFFFF');
 
-  originalCanvas!: HTMLCanvasElement;
-  originalCanvasCtx!: CanvasRenderingContext2D;
-  previewCanvas!: HTMLCanvasElement;
-  previewCanvasCtx!: CanvasRenderingContext2D;
-  backupCanvas!: HTMLCanvasElement;
-  backupCanvasCtx!: CanvasRenderingContext2D;
+  originalCanvas?: HTMLCanvasElement;
+  originalCanvasCtx?: CanvasRenderingContext2D;
+  previewCanvas?: HTMLCanvasElement;
+  previewCanvasCtx?: CanvasRenderingContext2D;
+  backupCanvas?: HTMLCanvasElement;
+  backupCanvasCtx?: CanvasRenderingContext2D;
 
   ready: boolean = false;
   imageLoaded: boolean = false;
@@ -51,7 +51,7 @@ export class ImageEditorComponent implements AfterViewInit {
       }
     });
     this.imageForm.disable();
-    this.previewCanvas = <HTMLCanvasElement>this.preview.nativeElement;
+    this.previewCanvas = <HTMLCanvasElement>this.preview?.nativeElement;
     this.previewCanvasCtx = this.previewCanvas.getContext('2d')!;
     this.originalCanvas = document.createElement('canvas');
     this.originalCanvasCtx = this.originalCanvas.getContext('2d')!;
@@ -94,18 +94,18 @@ export class ImageEditorComponent implements AfterViewInit {
     reader.onload = (event) => {
       let img = new Image();
       img.onload = () => {
-        this.originalCanvas.width = img.width;
-        this.originalCanvas.height = img.height;
-        this.canvasService.drawImage(this.originalCanvasCtx, img, 0, 0);
-        this.previewCanvas.width = img.width;
-        this.previewCanvas.height = img.height;
-        this.canvasService.drawImage(this.previewCanvasCtx, img, 0, 0);
-        this.backupCanvas.width = img.width;
-        this.backupCanvas.height = img.height;
-        this.canvasService.drawImage(this.backupCanvasCtx, img, 0, 0);
+        this.originalCanvas!.width = img.width;
+        this.originalCanvas!.height = img.height;
+        this.canvasService.drawImage(this.originalCanvasCtx!, img, 0, 0);
+        this.previewCanvas!.width = img.width;
+        this.previewCanvas!.height = img.height;
+        this.canvasService.drawImage(this.previewCanvasCtx!, img, 0, 0);
+        this.backupCanvas!.width = img.width;
+        this.backupCanvas!.height = img.height;
+        this.canvasService.drawImage(this.backupCanvasCtx!, img, 0, 0);
         this.getUniqueColors();
       }
-      img.src = <string>event.target!.result;
+      img.src = <string>event.target?.result;
     }
     reader.readAsDataURL((<any>imageLoadEvent.target!).files[0]);
     this.ready = true;
@@ -118,8 +118,8 @@ export class ImageEditorComponent implements AfterViewInit {
    * reset canvas to their original image data
    */
   resetPreviewCanvas(): void {
-    this.canvasService.drawImage(this.previewCanvasCtx, this.originalCanvas, 0, 0);
-    this.canvasService.drawImage(this.backupCanvasCtx, this.originalCanvas, 0, 0);
+    this.canvasService.drawImage(this.previewCanvasCtx!, this.originalCanvas!, 0, 0);
+    this.canvasService.drawImage(this.backupCanvasCtx!, this.originalCanvas!, 0, 0);
   }
 
   /**
@@ -135,7 +135,7 @@ export class ImageEditorComponent implements AfterViewInit {
         }
       }
     });
-    this.canvasService.removeColorTransparency(this.previewCanvasCtx, this.backupCanvasCtx);
+    this.canvasService.removeColorTransparency(this.previewCanvasCtx!, this.backupCanvasCtx!);
   }
 
   /**
@@ -144,13 +144,13 @@ export class ImageEditorComponent implements AfterViewInit {
    */
   pixelate(input: EventTarget): void {
     if(this.activeFunction.pixelate) {
-      this.canvasService.drawImage(this.previewCanvasCtx, this.backupCanvas, 0, 0);
+      this.canvasService.drawImage(this.previewCanvasCtx!, this.backupCanvas!, 0, 0);
     } else {
-      this.canvasService.drawImage(this.backupCanvasCtx, this.previewCanvas, 0, 0);
+      this.canvasService.drawImage(this.backupCanvasCtx!, this.previewCanvas!, 0, 0);
       this.setFunctionActive('pixelate');
     }
     let pixels = parseInt((<HTMLInputElement>input).value);
-    this.canvasService.pixelate(this.previewCanvasCtx, pixels);
+    this.canvasService.pixelate(this.previewCanvasCtx!, pixels);
     this.getUniqueColors();
   }
 
@@ -164,7 +164,7 @@ export class ImageEditorComponent implements AfterViewInit {
     let colorRemoverFormControl = this.imageForm.get('colorRemover');
     colorRemoverFormControl?.removeValidators(Validators.max(this.canvasColorNumber));
 
-    this.canvasService.getUniqueColors(this.previewCanvasCtx).then(result => {
+    this.canvasService.getUniqueColors(this.previewCanvasCtx!).then(result => {
       this.canvasColors = result;
       this.canvasColorNumber = Object.keys(this.canvasColors).length;
       colorRemoverFormControl?.addValidators(Validators.max(this.canvasColorNumber));
@@ -187,9 +187,9 @@ export class ImageEditorComponent implements AfterViewInit {
     let colorsToReplace = Object.keys(this.canvasColors).length - newColorNumber;
     if (newColorNumber >= this.canvasColorNumber || newColorNumber <= 1 || colorsToReplace < 1) return;
     if(this.activeFunction.colorRemover) {
-      this.canvasService.drawImage(this.previewCanvasCtx, this.backupCanvas, 0, 0);
+      this.canvasService.drawImage(this.previewCanvasCtx!, this.backupCanvas!, 0, 0);
     } else {
-      this.canvasService.drawImage(this.backupCanvasCtx, this.previewCanvas, 0, 0);
+      this.canvasService.drawImage(this.backupCanvasCtx!, this.previewCanvas!, 0, 0);
       this.setFunctionActive('colorRemover');
     }
     this.ready = false;
@@ -197,11 +197,11 @@ export class ImageEditorComponent implements AfterViewInit {
     this.canvasService.replaceLeastUsedColors(
       colorsToReplace,
       this.canvasColors,
-      new Uint8Array(this.previewCanvasCtx.getImageData(0, 0, this.previewCanvas.width, this.previewCanvas.height).data.buffer)
+      new Uint8Array(this.previewCanvasCtx!.getImageData(0, 0, this.previewCanvas!.width, this.previewCanvas!.height).data.buffer)
     ).then(result => {
-      let imageData = this.previewCanvasCtx.getImageData(0, 0, this.previewCanvas.width, this.previewCanvas.height);
+      let imageData = this.previewCanvasCtx!.getImageData(0, 0, this.previewCanvas!.width, this.previewCanvas!.height);
       imageData.data.set(result.colorBuffer);
-      this.previewCanvasCtx.putImageData(imageData, 0, 0);
+      this.previewCanvasCtx!.putImageData(imageData, 0, 0);
       this.ready = true;
     });
   }
@@ -215,9 +215,9 @@ export class ImageEditorComponent implements AfterViewInit {
     let outlineWidth = parseInt((<HTMLInputElement>input).value);
     if (outlineWidth < 0) return;
     if(this.activeFunction.outlineAddition) {
-      this.canvasService.drawImage(this.previewCanvasCtx, this.backupCanvas, 0, 0);
+      this.canvasService.drawImage(this.previewCanvasCtx!, this.backupCanvas!, 0, 0);
     } else {
-      this.canvasService.drawImage(this.backupCanvasCtx, this.previewCanvas, 0, 0);
+      this.canvasService.drawImage(this.backupCanvasCtx!, this.previewCanvas!, 0, 0);
       this.setFunctionActive('outlineAddition');
     }
     this.ready = false;
@@ -231,7 +231,7 @@ export class ImageEditorComponent implements AfterViewInit {
       }
     });
     this.canvasService.addOutline(
-      this.previewCanvasCtx,
+      this.previewCanvasCtx!,
       outlineWidth,
       this.outlineColor
     );
@@ -254,7 +254,7 @@ export class ImageEditorComponent implements AfterViewInit {
   download(): void {
     let link = document.createElement('a');
     link.download = 'image.png';
-    link.href = this.previewCanvas.toDataURL();
+    link.href = this.previewCanvas!.toDataURL();
     link.click();
   }
 }

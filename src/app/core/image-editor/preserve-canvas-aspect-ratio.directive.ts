@@ -26,7 +26,7 @@ export class PreserveCanvasAspectRatioDirective implements AfterViewInit, OnChan
   }
 
   setMaxHeight(): void {
-    let newMaxHeight = (<HTMLElement>this.element.nativeElement).parentElement!.getBoundingClientRect().height;
+    let newMaxHeight = (<HTMLElement>this.element.nativeElement).parentElement?.getBoundingClientRect().height;
     if(newMaxHeight && this.maxHeight !== newMaxHeight) {
       this.maxHeight = newMaxHeight;
       (<HTMLElement>this.element.nativeElement).style.maxHeight = `${newMaxHeight}px`;

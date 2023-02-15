@@ -9,7 +9,7 @@ import { Component, ElementRef, HostListener, Input, ViewChild } from '@angular/
 })
 export class HintComponent {
   @Input('text') text: string = '';
-  @ViewChild('hintElement') hintElement!: ElementRef;
+  @ViewChild('hintElement') hintElement?: ElementRef;
 
   // allows mobile support
   tooltipVisible: boolean = false;
@@ -19,13 +19,13 @@ export class HintComponent {
   @HostListener('touchstart', ['$event']) onTouchStart(event: Event): void {
     event.stopPropagation();
     this.tooltipVisible = true;
-    (<HTMLElement>this.hintElement.nativeElement).dispatchEvent(new Event('mouseover'));
+    (<HTMLElement>this.hintElement?.nativeElement).dispatchEvent(new Event('mouseover'));
   }
 
   // allows mobile support
   @HostListener('window:touchstart') onWindowTouchStart(): void {
     this.tooltipVisible = false;
-    (<HTMLElement>this.hintElement.nativeElement).dispatchEvent(new Event('mouseout'));
+    (<HTMLElement>this.hintElement?.nativeElement).dispatchEvent(new Event('mouseout'));
   }
 
 }

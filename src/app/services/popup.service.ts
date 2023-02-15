@@ -14,8 +14,8 @@ export interface IFeedbackOptions {
 })
 export class PopupService {
 
-  private modalContainer!: ViewContainerRef;
-  private feedbackContainer!: ViewContainerRef;
+  private modalContainer?: ViewContainerRef;
+  private feedbackContainer?: ViewContainerRef;
   private modalOpen: Subject<boolean> = new Subject<boolean>();
   private feedbackOpen: Subject<boolean> = new Subject<boolean>();
   private feedbackOptions: Subject<IFeedbackOptions | undefined> = new Subject<IFeedbackOptions | undefined>();
@@ -38,26 +38,26 @@ export class PopupService {
 
   openModal(componentType: Type<unknown>): void {
     this.modalOpen.next(true);
-    this.modalContainer.clear();
-    this.modalContainer.createComponent(componentType);
+    this.modalContainer!.clear();
+    this.modalContainer!.createComponent(componentType);
   }
 
   openFeedback(componentType: Type<unknown>, options?: IFeedbackOptions): void {
     this.feedbackOpen.next(true);
     this.feedbackOptions.next(options);
-    this.feedbackContainer.clear();
-    this.feedbackContainer.createComponent(componentType);
+    this.feedbackContainer!.clear();
+    this.feedbackContainer!.createComponent(componentType);
   }
 
   closeModal(): void {
     this.modalOpen.next(false);
-    this.modalContainer.clear();
+    this.modalContainer!.clear();
   }
 
   closeFeedback(): void {
     this.feedbackClose.next();
     this.feedbackOpen.next(false);
-    this.feedbackContainer.clear();
+    this.feedbackContainer!.clear();
   }
 
   getModalStatus(): Observable<boolean> {
