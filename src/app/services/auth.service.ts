@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import { ApiResponse } from '../models/api-response.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -22,15 +23,15 @@ export class AuthService {
   }
 
   authenticate(password: string): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>('https://leodebove.com/php/api.php/authenticate', { password: password });
+    return this.http.post<ApiResponse>(`${environment.apiUrl}/authenticate`, { password: password });
   }
 
   isAuthenticated(): Observable<ApiResponse> {
-    return this.http.get<ApiResponse>('https://leodebove.com/php/api.php/authenticate/status');
+    return this.http.get<ApiResponse>(`${environment.apiUrl}/authenticate/status`);
   }
 
   disconnect(): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>('https://leodebove.com/php/api.php/disconnect', null);
+    return this.http.post<ApiResponse>(`${environment.apiUrl}/disconnect`, null);
   }
 
   getAuthenticated(): boolean {
