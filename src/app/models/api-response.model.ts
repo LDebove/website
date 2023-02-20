@@ -1,6 +1,8 @@
 export interface MetaData {
   timestamp: string;
   status: number;
+  path: string;
+  method: string;
   error?: string;
   message?: string;
 };
