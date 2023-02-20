@@ -14,9 +14,11 @@
   <cThemeToggle (checkedChange)="setColorTheme($event)"></cThemeToggle>
 </div>
 <div *ngIf="!mobileDisplay" class="header-link-container" [ngClass]="{'mobile': mobileUa}" horizontalScrolling scrollIndicator>
-  <div *ngFor="let appLink of appLinks" class="header-link" routerLinkActive="active" (isActiveChange)="headerInit ? scrollIntoLink() : undefined">
-    <a [routerLink]="appLink.path">{{ appLink.translationKey | translate }}</a>
-  </div>
+  <ng-container *ngFor="let appLink of appLinks">
+    <div *ngIf="!appLink.authNeeded || (appLink.authNeeded && authenticated)" class="header-link" routerLinkActive="active" (isActiveChange)="headerInit ? scrollIntoLink() : undefined">
+      <a [routerLink]="appLink.path">{{ appLink.translationKey | translate }}</a>
+    </div>
+  </ng-container>
 </div>
 <div *ngIf="mobileDisplay" class="header-link-container" [ngClass]="{'hidden': !showHeaderLinks, 'mobile': mobileUa}">
   <div *ngFor="let appLink of appLinks" class="header-link" routerLinkActive="active">

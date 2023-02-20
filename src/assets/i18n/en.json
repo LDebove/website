@@ -6,7 +6,8 @@
     "TERRARIA-PIXELART": "Terraria pixelart"
   },
   "COMMON": {
-    "PASSWORD": "Password"
+    "PASSWORD": "Password",
+    "DISCONNECT": "Disconnect"
   },
   "LAYOUT": {
     "EMAIL": "Email",

@@ -17,13 +17,15 @@ export class HeaderComponent implements OnInit, AfterContentInit {
   appLinks: AppLink[] = [
     { translationKey: 'APPS.HOME', path: '/home' },
     { translationKey: 'APPS.IMAGE-EDITOR', path: '/image-editor' },
-    { translationKey: 'APPS.TWW3-RANDOM-LORD', path: '/tww3-random-lord', authNeeded: true },
-    { translationKey: 'APPS.TERRARIA-PIXELART', path: '/terraria-pixelart' },
+    { translationKey: 'APPS.TWW3-RANDOM-LORD', path: '/tww3-random-lord' },
+    { translationKey: 'APPS.TERRARIA-PIXELART', path: '/terraria-pixelart' }
   ];
   mobileDisplay: boolean = false;
   mobileUa: boolean = false;
   showHeaderLinks: boolean = false;
   headerInit: boolean = true;
+  authenticated: boolean = false;
+
 
   @HostListener('window:resize') onResize(): void {
     if(document.documentElement.clientWidth < 501) {
@@ -33,11 +35,17 @@ export class HeaderComponent implements OnInit, AfterContentInit {
     }
   }
 
-  constructor(private translate: TranslateService, private ua: UserAgentService, private theme: ThemeService, private popup: PopupService) { }
+  constructor(private translate: TranslateService, private ua: UserAgentService, private theme: ThemeService, private popup: PopupService, private auth: AuthService) { }
 
   ngOnInit(): void {
     this.mobileUa = this.ua.isMobile();
     this.setColorTheme(false);
+    this.authenticated = this.auth.getAuthenticated();
+    this.auth.authenticatedSubject.subscribe({
+      next: (authenticated) => {
+        this.authenticated = authenticated;
+      }
+    });
   }
 
   ngAfterContentInit(): void {

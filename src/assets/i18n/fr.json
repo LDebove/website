@@ -6,7 +6,8 @@
     "TERRARIA-PIXELART": "Pixelart Terraria"
   },
   "COMMON": {
-    "PASSWORD": "Mot de passe"
+    "PASSWORD": "Mot de passe",
+    "DISCONNECT": "Se déconnecter"
   },
   "LAYOUT": {
     "EMAIL": "Mail",

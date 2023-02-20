@@ -9,7 +9,17 @@ import { ApiResponse } from '../models/api-response.model';
 })
 export class AuthService {
 
-  constructor(private http: HttpClient) { }
+  authenticatedSubject = new Subject<boolean>();
+  authenticated: boolean = false;
+
+  constructor(private http: HttpClient) {
+    this.authenticatedSubject.next(false);
+    this.authenticatedSubject.subscribe({
+      next: (authenticated) => {
+        this.authenticated = authenticated;
+      }
+    });
+  }
 
   authenticate(password: string): Observable<ApiResponse> {
     return this.http.post<ApiResponse>('https://leodebove.com/php/api.php/authenticate', { password: password });
@@ -21,5 +31,9 @@ export class AuthService {
 
   disconnect(): Observable<ApiResponse> {
     return this.http.post<ApiResponse>('https://leodebove.com/php/api.php/disconnect', null);
+  }
+
+  getAuthenticated(): boolean {
+    return this.authenticated;
   }
 }
