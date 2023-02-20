@@ -13,7 +13,7 @@ import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, Validators } from
       </div>
       <input class="input" [formControl]="input" [type]="type"
       [placeholder]="placeholder" [accept]="accept"
-      (input)="onInput($event)" (change)="onChange($event)"/>
+      (input)="onInput($event)" (change)="onChange($event)" (keyup.enter)="onSubmit($event)"/>
     </div>
   `,
   styleUrls: ['./elements.scss'],
@@ -34,6 +34,7 @@ export class InputComponent implements OnChanges, ControlValueAccessor {
 
   @Output() cInput = new EventEmitter<Event>();
   @Output() cChange = new EventEmitter<Event>();
+  @Output() cSubmit = new EventEmitter<Event>();
 
   //#region ControlValueAccessor
   input = new FormControl('');
@@ -66,6 +67,10 @@ export class InputComponent implements OnChanges, ControlValueAccessor {
     if(this.active) {
       this.cChange.emit(event);
     }
+  }
+
+  onSubmit(event: Event): void {
+    this.cSubmit.emit(event);
   }
 
   //#region ControlValueAccessor

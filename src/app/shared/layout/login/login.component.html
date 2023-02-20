@@ -1,1 +1,3 @@
-<cInput type="password" [placeholder]="'COMMON.PASSWORD' | translate"></cInput>
+<ng-container [formGroup]="loginForm">
+  <cInput type="password" formControlName="password" [placeholder]="'COMMON.PASSWORD' | translate" (cSubmit)="login()"></cInput>
+</ng-container>

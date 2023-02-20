@@ -111,11 +111,15 @@ export class AppComponent implements AfterViewInit, AfterContentChecked {
         flex = 'flex-end';
         break;
       case 'center':
+        flex = 'center';
+        break;
       default:
         flex = 'center';
         break;
     }
-    (<HTMLElement>this.feedbackOverlay?.nativeElement).style.justifyContent = flex;
+    if(this.feedbackOverlay) {
+      (<HTMLElement>this.feedbackOverlay.nativeElement).style.justifyContent = flex;
+    }
   }
 
   setFeedbackVerticalAlign(verticalAlign: string): void {
@@ -132,7 +136,10 @@ export class AppComponent implements AfterViewInit, AfterContentChecked {
         flex = 'center';
         break;
     }
-    (<HTMLElement>this.feedbackOverlay?.nativeElement).style.alignItems = flex;
+    if(this.feedbackOverlay) {
+      (<HTMLElement>this.feedbackOverlay.nativeElement).style.alignItems = flex;
+    }
+
   }
 
   showFeedback(): void {

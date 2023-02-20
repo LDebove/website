@@ -1,6 +1,8 @@
 import { AfterContentInit, Component, HostListener } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { AppLink } from 'src/app/models/app-link.model';
+import { AuthService } from 'src/app/services/auth.service';
 import { PopupService } from 'src/app/services/popup.service';
 import { ThemeService } from 'src/app/services/theme.service';
 import { UserAgentService } from 'src/app/services/user-agent.service';
@@ -12,10 +14,10 @@ import { LoginComponent } from '../login/login.component';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit, AfterContentInit {
-  appLinks: any = [
+  appLinks: AppLink[] = [
     { translationKey: 'APPS.HOME', path: '/home' },
     { translationKey: 'APPS.IMAGE-EDITOR', path: '/image-editor' },
-    { translationKey: 'APPS.TWW3-RANDOM-LORD', path: '/tww3-random-lord' },
+    { translationKey: 'APPS.TWW3-RANDOM-LORD', path: '/tww3-random-lord', authNeeded: true },
     { translationKey: 'APPS.TERRARIA-PIXELART', path: '/terraria-pixelart' },
   ];
   mobileDisplay: boolean = false;
