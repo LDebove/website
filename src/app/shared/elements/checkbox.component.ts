@@ -1,4 +1,4 @@
-import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, forwardRef, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -7,7 +7,7 @@ import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/f
     <div class="custom-checkbox-container">
       <input class="checkbox" [formControl]="input" type="checkbox" (change)="onChange()">
       <label *ngIf="label !== ''" class="checkbox-label">
-        <span>{{ label }}</span>
+        <span (click)="onClick()">{{ label }}</span>
       </label>
     </div>
   `,
@@ -20,16 +20,32 @@ import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/f
     }
   ]
 })
-export class CheckboxComponent implements ControlValueAccessor {
+export class CheckboxComponent implements ControlValueAccessor, AfterViewInit, OnChanges {
   @Input('label') label: string = '';
   @Input('checked') checked: boolean = false;
 
   @Output() checkedChange = new EventEmitter<boolean>();
 
   //#region ControlValueAccessor
-  input = new FormControl('');
+  input = new FormControl(false);
   _onTouched = () => {};
   //#endregion
+
+  ngAfterViewInit(): void {
+    this.input.patchValue(this.checked);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes['checked']) {
+      this.input.patchValue(this.checked);
+    }
+  }
+
+  onClick(): void {
+    this.checked = !this.checked;
+    this.input.patchValue(this.checked);
+    this.checkedChange.emit(this.checked);
+  }
 
   onChange(): void {
     this.checkedChange.emit(this.checked);

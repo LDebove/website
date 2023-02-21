@@ -13,4 +13,5 @@ export interface Lord {
   name: string;
   faction: Faction;
   race: Race;
+  done: boolean;
 };

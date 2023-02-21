@@ -23,7 +23,7 @@ export class ToggleComponent implements ControlValueAccessor {
   @Input('checked') checked: boolean = false;
 
   //#region ControlValueAccessor
-  input = new FormControl('');
+  input = new FormControl(false);
   _onTouched = () => {};
   //#endregion
 

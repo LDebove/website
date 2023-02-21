@@ -1,4 +1,5 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://leodebove.com/php/api.php'
+  serverRoot: 'https://leodebove.com/',
+  apiUrl: 'https://leodebove.com/php/api.php',
 }

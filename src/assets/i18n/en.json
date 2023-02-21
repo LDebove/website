@@ -50,5 +50,12 @@
       "TEXT": "Outline color",
       "HINT": "Sets outline color"
     }
+  },
+  "TWW3-RANDOM-LORD": {
+    "SETTINGS": "Settings",
+    "RANDOMIZE": "Randomize",
+    "MARK-AS-DONE": "Mark as done",
+    "DISCLAIMER": "All images used on this page are the property come from the game Total War: Warhammer III and are used for non-commercial purposes only.",
+    "OFFICIAL-WEBSITE": "Official website"
   }
 }

@@ -17,6 +17,7 @@ import { LoaderComponent } from './elements/loader.component';
 import { HintComponent } from './elements/hint.component';
 import { TooltipDirective } from './directives/tooltip.directive';
 import { FeedbackActionDirective } from './directives/feedback-action.directive';
+import { SidebarComponent } from './elements/sidebar.component';
 
 
 
@@ -36,7 +37,8 @@ import { FeedbackActionDirective } from './directives/feedback-action.directive'
     LoaderComponent,
     HintComponent,
     TooltipDirective,
-    FeedbackActionDirective
+    FeedbackActionDirective,
+    SidebarComponent
   ],
   imports: [
     CommonModule,
@@ -62,7 +64,8 @@ import { FeedbackActionDirective } from './directives/feedback-action.directive'
     TooltipDirective,
     FeedbackActionDirective,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SidebarComponent
   ]
 })
 export class SharedModule { }

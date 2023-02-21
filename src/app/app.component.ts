@@ -153,7 +153,7 @@ export class AppComponent implements AfterViewInit, AfterContentChecked {
     let feedbackElement = <HTMLElement>this.feedback?.nativeElement;
     let feedbackRect = feedbackElement.getBoundingClientRect();
     let bodyRect = document.body.getBoundingClientRect();
-    feedbackElement.style.transform = `translateY(${bodyRect.height - feedbackRect.y - 15}px)`;
+    feedbackElement.style.transform = `translateY(${bodyRect.height - feedbackRect.y}px)`;
     feedbackElement.classList.add('hidden');
     this.feedbackHidden = true;
   }
