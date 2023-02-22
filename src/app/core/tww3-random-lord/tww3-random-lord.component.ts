@@ -73,6 +73,7 @@ export class Tww3RandomLordComponent implements OnInit, AfterViewInit {
   }
 
   orderLordsByRaces(mappedLords: {lord: Lord, selected: boolean}[]): void {
+    this.mappedRaces = [];
     mappedLords.forEach((mappedLord) => {
       let mappedRaceIndex = this.mappedRaces.findIndex(mappedRace => mappedRace.race.id === mappedLord.lord.race.id);
       if(mappedRaceIndex === -1) {
