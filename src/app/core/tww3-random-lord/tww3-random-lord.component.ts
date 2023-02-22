@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
-import { Lord } from 'src/app/models/lord.model';
+import { Lord, Race } from 'src/app/models/lord.model';
 import { ApiService } from 'src/app/services/api.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { PopupService } from 'src/app/services/popup.service';
@@ -16,7 +16,7 @@ import { DisclaimerComponent } from './disclaimer/disclaimer.component';
 export class Tww3RandomLordComponent implements OnInit, AfterViewInit {
 
   serverRoot: string = environment.serverRoot;
-  mappedLords: {lord: Lord, selected: boolean}[] = [];
+  mappedRaces: { race: Race, mappedLords: {lord: Lord, selected: boolean}[] }[] = [];
   lord?: Lord;
   authenticated: boolean = false;
 
@@ -50,13 +50,19 @@ export class Tww3RandomLordComponent implements OnInit, AfterViewInit {
       next: (response) => {
         if(response.data?.lords) {
           if(!this.authenticated) {
-            this.mappedLords = response.data.lords.map((lord: Lord) => ({ lord: lord, selected: true }));
+            this.orderLordsByRaces(response.data.lords.map((lord: Lord) => ({ lord: lord, selected: true })));
           } else {
-            this.mappedLords = response.data.lords.map((lord: Lord) => ({ lord: lord, selected: !lord.done }));
+            this.orderLordsByRaces(response.data.lords.map((lord: Lord) => ({ lord: lord, selected: !lord.done })));
             this.api.get('lords/doing').subscribe({
               next: (response) => {
                 if(response.data?.lordId) {
-                  this.lord = this.mappedLords.find(mappedLord => mappedLord.lord.id === response.data.lordId)?.lord;
+                  for(let i = 0; i < this.mappedRaces.length; i++) {
+                    let lordFound = this.mappedRaces[i].mappedLords.find(mappedLord => mappedLord.lord.id === response.data.lordId)?.lord;
+                    if(lordFound) {
+                      this.lord = lordFound;
+                      break;
+                    }
+                  }
                 }
               }
             });
@@ -66,24 +72,86 @@ export class Tww3RandomLordComponent implements OnInit, AfterViewInit {
     });
   }
 
-  handleLordSelection(mappedLord: {lord: Lord, selected: boolean}, selected: boolean): void {
-    let foundMappedLord = this.mappedLords.find(_mappedLord => _mappedLord.lord.id === mappedLord.lord.id);
-    if(foundMappedLord) {
-      foundMappedLord.selected = !selected;
+  orderLordsByRaces(mappedLords: {lord: Lord, selected: boolean}[]): void {
+    mappedLords.forEach((mappedLord) => {
+      let mappedRaceIndex = this.mappedRaces.findIndex(mappedRace => mappedRace.race.id === mappedLord.lord.race.id);
+      if(mappedRaceIndex === -1) {
+        this.mappedRaces.push({ race: mappedLord.lord.race, mappedLords: [ mappedLord ]});
+      } else {
+        this.mappedRaces[mappedRaceIndex].mappedLords.push(mappedLord);
+      }
+    });
+  }
+
+  handleLordSelection(mappedLord: {lord: Lord, selected: boolean}, checked: boolean): void {
+    let mappedRaceIndex = this.mappedRaces.findIndex(mappedRace => mappedRace.race.id === mappedLord.lord.race.id);
+    if(mappedRaceIndex !== -1) {
+      let mappedLordIndex = this.mappedRaces[mappedRaceIndex].mappedLords.findIndex(_mappedLord => _mappedLord.lord.id === mappedLord.lord.id);
+      if(mappedLordIndex !== -1) {
+        this.mappedRaces[mappedRaceIndex].mappedLords[mappedLordIndex].selected = checked;
+      }
+    }
+  }
+
+  handleRaceSelection(raceId: number): void {
+    let mappedRaceIndex = this.mappedRaces.findIndex(mappedRace => mappedRace.race.id === raceId);
+    if(mappedRaceIndex !== -1) {
+      let mappedLordIndex = this.mappedRaces[mappedRaceIndex].mappedLords.findIndex(mappedLord => mappedLord.selected === false);
+      if(mappedLordIndex === -1) {
+        this.mappedRaces[mappedRaceIndex].mappedLords.forEach((mappedLord) => {
+          mappedLord.selected = false;
+        });
+      } else {
+        this.mappedRaces[mappedRaceIndex].mappedLords.forEach((mappedLord) => {
+          mappedLord.selected = true;
+        });
+      }
+    }
+  }
+
+  handleAllLordsSelection(): void {
+    let mappedLordIndex: number = -1;
+    for(let i = 0; i < this.mappedRaces.length; i++) {
+      mappedLordIndex = this.mappedRaces[i].mappedLords.findIndex(mappedLord => mappedLord.selected === false);
+      if(mappedLordIndex !== -1) break;
+    }
+    if(mappedLordIndex === -1) {
+      this.mappedRaces.forEach((mappedRace) => {
+        mappedRace.mappedLords.forEach((mappedLord) => {
+          mappedLord.selected = false;
+        });
+      });
+    } else {
+      this.mappedRaces.forEach((mappedRace) => {
+        mappedRace.mappedLords.forEach((mappedLord) => {
+          mappedLord.selected = true;
+        });
+      });
     }
   }
 
   randomize(): void {
-    let lords = this.mappedLords.filter(mappedLord => mappedLord.selected !== false);
-    this.lord = lords[Math.floor(Math.random() * lords.length)].lord;
+    let mappedLords: {lord: Lord, selected: boolean}[] = [];
+    this.mappedRaces.forEach((mappedRace) => {
+      mappedRace.mappedLords.forEach((mappedLord) => {
+        mappedLords.push(mappedLord);
+      });
+    });
+    let lords = mappedLords.filter(mappedLord => mappedLord.selected !== false);
+    if(lords.length !== 0) {
+      this.lord = lords[Math.floor(Math.random() * lords.length)].lord;
+    }
   }
 
   markAsDone(): void {
     if(!this.lord || !this.authenticated) return;
     this.api.put('lords/done', null).subscribe();
-    let foundMappedLord = this.mappedLords.find(mappedLord => mappedLord.lord.id === this.lord!.id);
-    if(foundMappedLord) {
-      foundMappedLord.selected = false;
+    let mappedRaceIndex = this.mappedRaces.findIndex((mappedRace) => mappedRace.race.id === this.lord!.race.id);
+    if(mappedRaceIndex !== -1) {
+      let mappedLordIndex = this.mappedRaces[mappedRaceIndex].mappedLords.findIndex(mappedLord => mappedLord.lord.id === this.lord!.id);
+      if(mappedLordIndex !== -1) {
+        this.mappedRaces[mappedRaceIndex].mappedLords[mappedLordIndex].selected = false;
+      }
     }
     this.randomize();
     this.api.put('lords/doing', { id: this.lord.id }).subscribe();

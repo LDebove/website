@@ -1,6 +1,10 @@
 <cSidebar [title]="'TWW3-RANDOM-LORD.SETTINGS' | translate">
-  <ng-container *ngFor="let mappedLord of mappedLords">
-    <cCheckbox [label]="mappedLord.lord.name" [checked]="mappedLord.selected" (checkedChange)="handleLordSelection(mappedLord, $event)"></cCheckbox>
+  <span class="settings-all-title" (click)="handleAllLordsSelection()">{{ 'TWW3-RANDOM-LORD.ALL-LORDS' | translate }}</span>
+  <ng-container *ngFor="let mappedRace of mappedRaces">
+    <span class="settings-race-title" (click)="handleRaceSelection(mappedRace.race.id)">{{ mappedRace.race.name }}</span>
+    <ng-container *ngFor="let mappedLord of mappedRace.mappedLords">
+      <cCheckbox [label]="mappedLord.lord.name" [checked]="mappedLord.selected" (checkedChange)="handleLordSelection(mappedLord, $event)"></cCheckbox>
+    </ng-container>
   </ng-container>
 </cSidebar>
 

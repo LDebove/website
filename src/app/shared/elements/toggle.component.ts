@@ -28,6 +28,7 @@ export class ToggleComponent implements ControlValueAccessor {
   //#endregion
 
   onChange(): void {
+    this.checked = !this.checked;
     this.checkedChange.emit(this.checked);
   }
 

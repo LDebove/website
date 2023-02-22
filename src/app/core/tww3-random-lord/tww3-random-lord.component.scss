@@ -4,6 +4,24 @@
   height: 100%;
 }
 
+.settings-all-title {
+  display: flex;
+  padding: 15px 0 10px 0;
+  justify-content: center;
+  text-decoration: underline;
+  cursor: pointer;
+  user-select: none;
+}
+
+.settings-race-title {
+  display: flex;
+  padding: 10px 0 5px 0;
+  justify-content: center;
+  text-decoration: underline;
+  cursor: pointer;
+  user-select: none;
+}
+
 .random-lord {
   display: flex;
   position: relative;
