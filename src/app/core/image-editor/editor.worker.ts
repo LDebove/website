@@ -1,6 +1,6 @@
 /// <reference lib="webworker" />
 
-import { removeColorTransparency, getUniqueColors, replaceLeastUsedColors, addOutline } from './canvas.functions';
+import { removeColorTransparency, getUniqueColors, replaceLeastUsedColors, addOutline } from './editor.functions';
 
 addEventListener('message', ({ data }) => {
   let response;

@@ -37,6 +37,6 @@ export class LoginComponent implements OnInit {
 
   logout(): void {
     this.auth.authenticatedSubject.next(false);
-    this.auth.disconnect();
+    this.auth.disconnect().subscribe();
   }
 }

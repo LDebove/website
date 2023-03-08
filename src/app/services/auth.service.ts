@@ -37,4 +37,16 @@ export class AuthService {
   getAuthenticated(): boolean {
     return this.authenticated;
   }
+
+  startupAuthentication(): void {
+    this.isAuthenticated().subscribe({
+      next: (response) => {
+        if(response.data.status) {
+          this.authenticatedSubject.next(response.data.status);
+        } else {
+          this.authenticatedSubject.next(false);
+        }
+      }
+    })
+  }
 }

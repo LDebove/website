@@ -1,10 +1,12 @@
 <div class="header-content">
-  <div class="logo-container" (click)="openLogin(); $event.stopPropagation()">
+  <div class="logo-container" routerLink="/home">
     <img src="assets/images/logo.png" alt="logo">
   </div>
-  Léo
-  <br>
-  Debove
+  <span>
+    Léo
+    <br>
+    Deb<span (click)="openLogin(); $event.stopPropagation()">o</span>ve
+  </span>
 </div>
 <div class="header-controls">
   <cSelect (selectionChange)="setLanguage($event)">

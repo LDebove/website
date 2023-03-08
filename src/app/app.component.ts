@@ -1,5 +1,6 @@
-import { AfterContentChecked, AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterContentChecked, AfterViewInit, ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { AuthService } from './services/auth.service';
 import { PopupService } from './services/popup.service';
 
 @Component({
@@ -7,7 +8,7 @@ import { PopupService } from './services/popup.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements AfterViewInit, AfterContentChecked {
+export class AppComponent implements OnInit, AfterViewInit, AfterContentChecked {
   title = 'website';
   modalOpen: boolean = false;
   feedbackOpen: boolean = false;
@@ -20,7 +21,7 @@ export class AppComponent implements AfterViewInit, AfterContentChecked {
   @ViewChild('feedback') feedback?: ElementRef;
   @ViewChild('feedbackOverlay') feedbackOverlay?: ElementRef;
 
-  constructor(translate: TranslateService, private popup: PopupService, private cdr: ChangeDetectorRef) {
+  constructor(translate: TranslateService, private popup: PopupService, private cdr: ChangeDetectorRef, private auth: AuthService) {
     translate.setDefaultLang('en');
     translate.use('en');
   }
@@ -35,8 +36,11 @@ export class AppComponent implements AfterViewInit, AfterContentChecked {
     }
   }
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
+    this.auth.startupAuthentication();
+  }
 
+  ngAfterViewInit(): void {
     this.popup.setModalContainer(this.modalContainer!);
     this.popup.setFeedbackContainer(this.feedbackContainer!);
 
