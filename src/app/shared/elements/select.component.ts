@@ -11,7 +11,28 @@ import { OptionComponent } from './option.component';
       </select>
     </div>
   `,
-  styleUrls: ['./elements.scss'],
+  styles: [`
+    :host {
+      display: inline-flex;
+    }
+
+    .custom-select {
+      select {
+        max-width: 100%;
+        border: 1px solid var(--highlight-color-1);
+        padding: 2px 5px;
+        margin: 0;
+        border-radius: 3px;
+        background-color: var(--contrast-color);
+        color: var(--font-color);
+        cursor: pointer;
+
+        option {
+          color: #000000;
+        }
+      }
+    }
+  `],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

@@ -9,7 +9,62 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
       <span>{{ text }}</span>
     </button>
   `,
-  styleUrls: ['./elements.scss'],
+  styles: [`
+    :host {
+      display: inline-flex;
+    }
+
+    .custom-button {
+      display: flex;
+      width: inherit;
+      height: inherit;
+      min-height: 25px;
+      padding: 0 5px;
+      border: 1px solid var(--highlight-color-1);
+      margin: 0;
+      box-sizing: border-box;
+      border-radius: 5px;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      background-color: var(--contrast-color);
+      color: var(--font-color);
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: inherit;
+
+      span {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      &:hover {
+        border: 1px solid var(--highlight-color-2);
+      }
+
+      &:disabled {
+        color: var(--tinted-color);
+        cursor: not-allowed;
+      }
+
+      &.green {
+        border: 1px solid #00D419;
+        background-color: #24BF36;
+        color: #FFFFFF;
+      }
+      &.orange {
+        border: 1px solid #FF7110;
+        background-color: #EA7C33;
+        color: #FFFFFF;
+      }
+      &.red {
+        border: 1px solid #FF1616;
+        background-color: #CC3030;
+        color: #FFFFFF;
+      }
+    }
+  `],
   animations: [
     trigger('clicked', [
       state('notClicked', style({})),

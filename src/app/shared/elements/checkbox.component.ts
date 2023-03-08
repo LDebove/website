@@ -11,7 +11,52 @@ import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/f
       </label>
     </div>
   `,
-  styleUrls: ['./elements.scss'],
+  styles: [`
+    :host {
+      display: inline-flex;
+    }
+
+    .custom-checkbox-container {
+      display: flex;
+      width: 100%;
+      gap: 5px;
+
+      .checkbox {
+        display: block;
+        width: 25px;
+        height: 25px;
+        border-radius: 5px;
+        margin: 0;
+        border: 0;
+        outline: 0;
+        accent-color: var(--color-5);
+        cursor: pointer;
+        flex: 0 0 25px;
+
+        &:checked {
+          animation: check 0.5s;
+        }
+      }
+
+      .checkbox-label {
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+
+        span {
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+      }
+
+      @keyframes check {
+        0% { transform: scale(1); }
+        50% { transform: scale(0.9); }
+        100% { transform: scale(1); }
+      }
+    }
+  `],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
