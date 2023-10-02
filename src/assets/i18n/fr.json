@@ -6,7 +6,8 @@
     "TERRARIA-PIXELART": "Pixelart Terraria"
   },
   "COMMON": {
-    "PASSWORD": "Mot de passe"
+    "PASSWORD": "Mot de passe",
+    "DISCONNECT": "Se déconnecter"
   },
   "LAYOUT": {
     "EMAIL": "Mail",
@@ -20,8 +21,8 @@
     },
     "DEVELOPER": {
       "TITLE": "Le développeur",
-      "TEXT-PART-1": "Je suis un étudiant en génie informatique et industriel qui apprécie le développement web tout autant que le développement logiciel. J'aime commencer de nouveaux projets trop ambitieux pour que je puisse en voir le bout un jour.",
-      "TEXT-PART-2": "Puisse ce site web ne pas en faire partie..."
+      "TEXT-PART-1": "Je suis un étudiant en génie informatique et industriel qui apprécie le développement web tout autant que le développement logiciel. J'aime commencer de nouveaux projets parfois un peu trop ambitieux.",
+      "TEXT-PART-2": "Bienvenue dans mon monde !"
     }
   },
   "IMAGE-EDITOR": {
@@ -49,5 +50,16 @@
       "TEXT": "Couleur du coutour",
       "HINT": "Modifie la couleur du contour"
     }
+  },
+  "TWW3-RANDOM-LORD": {
+    "SETTINGS": "Paramètres",
+    "RANDOMIZE": "Choisir aléatoirement",
+    "MARK-AS-DONE": "Marquer comme terminé",
+    "DISCLAIMER": "Toutes les images utilisées sur cette page proviennent du jeu Total War: Warhammer III et sont utilisées à des fins non commerciales uniquement.",
+    "OFFICIAL-WEBSITE": "Site web officiel",
+    "ALL-LORDS": "Tous les Seigneurs"
+  },
+  "TERRARIA-PIXELART": {
+    "PREVIEW": "Prévisualisation"
   }
 }

@@ -1,0 +1,12 @@
+.disclaimer-container {
+  display: flex;
+  width: 250px;
+  padding: 5px;
+  box-sizing: border-box;
+  flex-direction: column;
+  gap: 5px;
+
+  .message {
+    text-align: justify;
+  }
+}

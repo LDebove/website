@@ -1,6 +1,7 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
+import { IColorDictionary } from '../image-editor/editor.model';
 
 @Component({
   selector: 'app-terraria-pixelart',
@@ -8,6 +9,8 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./terraria-pixelart.component.scss']
 })
 export class TerrariaPixelartComponent implements AfterViewInit {
+
+  canvasColors: IColorDictionary = {};
 
   constructor(private title: Title, private translate: TranslateService) { }
 
@@ -18,6 +21,10 @@ export class TerrariaPixelartComponent implements AfterViewInit {
         this.title.setTitle(`${this.translate.instant('APPS.TERRARIA-PIXELART')} - Léo Debove`);
       }
     });
+  }
+
+  setCanvas(imageLoadEvent: Event): void {
+
   }
 
 }

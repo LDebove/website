@@ -5,7 +5,32 @@ import { Component, ElementRef, HostListener, Input, ViewChild } from '@angular/
   template: `
     <div class="custom-hint" cTooltip [tooltipText]="text" #hintElement>?<div>
   `,
-  styleUrls: ['./elements.scss'],
+  styles: [`
+    :host {
+      display: inline-flex;
+    }
+
+    .custom-hint {
+      display: flex;
+      width: 15px;
+      height: 15px;
+      font-size: 12px;
+      font-weight: bold;
+      border-radius: 50%;
+      border: 1px solid var(--highlight-color-1);
+      box-sizing: border-box;
+      cursor: help;
+      color: #FFFFFF;
+      background-color: var(--color-5);
+      justify-content: center;
+      align-items: center;
+      user-select: none;
+
+      &:hover {
+        border: 1px solid var(--highlight-color-2);
+      }
+    }
+  `]
 })
 export class HintComponent {
   @Input('text') text: string = '';

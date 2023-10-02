@@ -1,22 +1,26 @@
 <div class="header-content">
-  <div class="logo-container" (click)="openLogin(); $event.stopPropagation()">
+  <div class="logo-container" routerLink="/home">
     <img src="assets/images/logo.png" alt="logo">
   </div>
-  Léo
-  <br>
-  Debove
+  <span>
+    Léo
+    <br>
+    Deb<span (click)="openLogin(); $event.stopPropagation()">o</span>ve
+  </span>
 </div>
 <div class="header-controls">
   <cSelect (selectionChange)="setLanguage($event)">
-    <cOption value="en" [selected]="true">🇬🇧</cOption>
-    <cOption value="fr">🇫🇷</cOption>
+    <cOption value="en" [selected]="true">🇬🇧 EN</cOption>
+    <cOption value="fr">🇫🇷 FR</cOption>
   </cSelect>
   <cThemeToggle (checkedChange)="setColorTheme($event)"></cThemeToggle>
 </div>
 <div *ngIf="!mobileDisplay" class="header-link-container" [ngClass]="{'mobile': mobileUa}" horizontalScrolling scrollIndicator>
-  <div *ngFor="let appLink of appLinks" class="header-link" routerLinkActive="active" (isActiveChange)="headerInit ? scrollIntoLink() : undefined">
-    <a [routerLink]="appLink.path">{{ appLink.translationKey | translate }}</a>
-  </div>
+  <ng-container *ngFor="let appLink of appLinks">
+    <div *ngIf="!appLink.authNeeded || (appLink.authNeeded && authenticated)" class="header-link" routerLinkActive="active" (isActiveChange)="headerInit ? scrollIntoLink() : undefined">
+      <a [routerLink]="appLink.path">{{ appLink.translationKey | translate }}</a>
+    </div>
+  </ng-container>
 </div>
 <div *ngIf="mobileDisplay" class="header-link-container" [ngClass]="{'hidden': !showHeaderLinks, 'mobile': mobileUa}">
   <div *ngFor="let appLink of appLinks" class="header-link" routerLinkActive="active">

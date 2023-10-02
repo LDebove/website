@@ -1,0 +1,35 @@
+:host {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 25px;
+  box-sizing: border-box;
+  gap: 25px;
+  justify-content: flex-start;
+  flex: 1;
+}
+
+
+.main-box {
+  flex: 1 1 250px;
+}
+
+.tool-box {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  padding: 5px;
+  box-sizing: border-box;
+  gap: 5px;
+  border-radius: 5px;
+  align-items: flex-start;
+  background-color: var(--color-4);
+  border: 1px solid var(--highlight-color-1);
+
+  &:hover {
+    border: 1px solid var(--highlight-color-2);
+  }
+
+  .title {
+    margin: 0;
+  }
+}

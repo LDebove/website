@@ -1,0 +1,40 @@
+<cSidebar [title]="'TWW3-RANDOM-LORD.SETTINGS' | translate">
+  <span class="settings-all-title" (click)="handleAllLordsSelection()">{{ 'TWW3-RANDOM-LORD.ALL-LORDS' | translate }}</span>
+  <ng-container *ngFor="let mappedRace of mappedRaces">
+    <span class="settings-race-title" (click)="handleRaceSelection(mappedRace.race.id)">{{ mappedRace.race.name }}</span>
+    <ng-container *ngFor="let mappedLord of mappedRace.mappedLords">
+      <cCheckbox [label]="mappedLord.lord.name" [checked]="mappedLord.selected" (checkedChange)="handleLordSelection(mappedLord, $event)"></cCheckbox>
+    </ng-container>
+  </ng-container>
+</cSidebar>
+
+<div class="random-lord">
+  <img class="campaign-background-image" [src]="serverRoot + 'images/campaign_backgrounds/1.png'"/>
+  <div *ngIf="lord" class="lord-card">
+    <div class="top-content">
+      <div class="race-container">
+        <img class="race-bar-image" [src]="serverRoot + 'images/race_bars/' + lord.race.id + '.png'"/>
+        <span class="title">{{ lord.race.name }}</span>
+      </div>
+    </div>
+    <div class="bottom-content">
+      <img class="race-background-image" [src]="serverRoot + 'images/race_backgrounds/' + lord.race.id + '.png'"/>
+      <div class="lord-container">
+        <div class="lord">
+          <img class="lord-image" [src]="serverRoot + 'images/lord_portraits/' + lord.id + '.png'"/>
+          <span class="title">{{ lord.name }}</span>
+        </div>
+      </div>
+      <div class="faction-container">
+        <div class="faction">
+          <img class="faction-image" [src]="serverRoot + 'images/faction_flags/' + lord.faction.id + '.png'"/>
+          <span class="title">{{ lord.faction.name }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="tool-box">
+    <cButton class="randomize" color="orange" [text]="'TWW3-RANDOM-LORD.RANDOMIZE' | translate" [disabled]="authenticated" (cClick)="randomize()"></cButton>
+    <cButton *ngIf="lord && authenticated" class="done" color="green" [text]="'TWW3-RANDOM-LORD.MARK-AS-DONE' | translate" (cClick)="markAsDone()"></cButton>
+  </div>
+</div>

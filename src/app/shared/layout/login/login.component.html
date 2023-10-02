@@ -1,1 +1,2 @@
-<cInput type="password" [placeholder]="'COMMON.PASSWORD' | translate"></cInput>
+<cInput *ngIf="!authenticated" type="password" [formControl]="password" [placeholder]="'COMMON.PASSWORD' | translate" (cSubmit)="login()"></cInput>
+<cButton *ngIf="authenticated" color="red" [text]="'COMMON.DISCONNECT' | translate" (cClick)="logout()"></cButton>

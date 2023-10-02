@@ -1,7 +1,4 @@
-export interface IColorDictionary {
-  [key: string]: number;
-}
-
+import { IColorDictionary } from "./editor.model";
 
 /**
  * set non opaque colors to fully transparent

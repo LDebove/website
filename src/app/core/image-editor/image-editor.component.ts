@@ -2,8 +2,8 @@ import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
-import { CanvasService } from './canvas.service';
-import { IColorDictionary } from './canvas.functions';
+import { EditorService } from './editor.service';
+import { IColorDictionary } from './editor.model';
 
 @Component({
   selector: 'app-image-editor',
@@ -41,7 +41,7 @@ export class ImageEditorComponent implements AfterViewInit {
     outlineAddition: false,
   }
 
-  constructor(private title: Title, private translate: TranslateService, private canvasService: CanvasService) { }
+  constructor(private title: Title, private translate: TranslateService, private canvasService: EditorService) { }
 
   ngAfterViewInit(): void {
     this.title.setTitle(`${this.translate.instant('APPS.IMAGE-EDITOR')} - Léo Debove`);

@@ -6,7 +6,8 @@
     "TERRARIA-PIXELART": "Terraria pixelart"
   },
   "COMMON": {
-    "PASSWORD": "Password"
+    "PASSWORD": "Password",
+    "DISCONNECT": "Disconnect"
   },
   "LAYOUT": {
     "EMAIL": "Email",
@@ -20,8 +21,8 @@
     },
     "DEVELOPER": {
       "TITLE": "The developer",
-      "TEXT-PART-1": "I am an information engineering student who enjoys web development as much as software development. I love starting new projects that are too ambitious for me to ever see through.",
-      "TEXT-PART-2": "May this website not be one of them..."
+      "TEXT-PART-1": "I am an information engineering student who enjoys web development as much as software development. I love starting new projects that are sometimes a little too ambitious.",
+      "TEXT-PART-2": "Welcome to my world !"
     }
   },
   "IMAGE-EDITOR": {
@@ -49,5 +50,16 @@
       "TEXT": "Outline color",
       "HINT": "Sets outline color"
     }
+  },
+  "TWW3-RANDOM-LORD": {
+    "SETTINGS": "Settings",
+    "RANDOMIZE": "Randomize",
+    "MARK-AS-DONE": "Mark as done",
+    "DISCLAIMER": "All images used on this page come from the game Total War: Warhammer III and are used for non-commercial purposes only.",
+    "OFFICIAL-WEBSITE": "Official website",
+    "ALL-LORDS": "All Lords"
+  },
+  "TERRARIA-PIXELART": {
+    "PREVIEW": "Image preview"
   }
 }

@@ -4,8 +4,7 @@ import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output } fro
   selector: 'cOption',
   template: `
     <ng-content></ng-content>
-  `,
-  styleUrls: ['./elements.scss']
+  `
 })
 export class OptionComponent implements AfterViewInit {
   @Input('value') value: any = undefined;

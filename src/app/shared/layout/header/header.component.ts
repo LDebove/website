@@ -1,6 +1,8 @@
 import { AfterContentInit, Component, HostListener } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { AppLink } from 'src/app/models/app-link.model';
+import { AuthService } from 'src/app/services/auth.service';
 import { PopupService } from 'src/app/services/popup.service';
 import { ThemeService } from 'src/app/services/theme.service';
 import { UserAgentService } from 'src/app/services/user-agent.service';
@@ -12,16 +14,18 @@ import { LoginComponent } from '../login/login.component';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit, AfterContentInit {
-  appLinks: any = [
+  appLinks: AppLink[] = [
     { translationKey: 'APPS.HOME', path: '/home' },
     { translationKey: 'APPS.IMAGE-EDITOR', path: '/image-editor' },
     { translationKey: 'APPS.TWW3-RANDOM-LORD', path: '/tww3-random-lord' },
-    { translationKey: 'APPS.TERRARIA-PIXELART', path: '/terraria-pixelart' },
+    //{ translationKey: 'APPS.TERRARIA-PIXELART', path: '/terraria-pixelart' }
   ];
   mobileDisplay: boolean = false;
   mobileUa: boolean = false;
   showHeaderLinks: boolean = false;
   headerInit: boolean = true;
+  authenticated: boolean = false;
+
 
   @HostListener('window:resize') onResize(): void {
     if(document.documentElement.clientWidth < 501) {
@@ -31,11 +35,17 @@ export class HeaderComponent implements OnInit, AfterContentInit {
     }
   }
 
-  constructor(private translate: TranslateService, private ua: UserAgentService, private theme: ThemeService, private popup: PopupService) { }
+  constructor(private translate: TranslateService, private ua: UserAgentService, private theme: ThemeService, private popup: PopupService, private auth: AuthService) { }
 
   ngOnInit(): void {
     this.mobileUa = this.ua.isMobile();
     this.setColorTheme(false);
+    this.authenticated = this.auth.getAuthenticated();
+    this.auth.authenticatedSubject.subscribe({
+      next: (authenticated) => {
+        this.authenticated = authenticated;
+      }
+    });
   }
 
   ngAfterContentInit(): void {

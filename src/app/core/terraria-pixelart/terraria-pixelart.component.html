@@ -1,0 +1,10 @@
+<div class="main-box tool-box">
+  <h4 class="title">{{ 'TERRARIA-PIXELART.PREVIEW' | translate }}</h4>
+  <cInput class="file-input" type="file" accept=".png,.jpg" (cChange)="setCanvas($event)"></cInput>
+    <div class="canvas-container">
+      <canvas class="preview-canvas" #preview preserveCanvasAspectRatio></canvas>
+    </div>
+</div>
+<div class="tool-box">
+  <h4 class="title">{{ 'TERRARIA-PIXELART.COLORS' | translate }}</h4>
+</div>
