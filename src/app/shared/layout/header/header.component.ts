@@ -18,7 +18,7 @@ export class HeaderComponent implements OnInit, AfterContentInit {
     { translationKey: 'APPS.HOME', path: '/home' },
     { translationKey: 'APPS.IMAGE-EDITOR', path: '/image-editor' },
     { translationKey: 'APPS.TWW3-RANDOM-LORD', path: '/tww3-random-lord' },
-    { translationKey: 'APPS.TERRARIA-PIXELART', path: '/terraria-pixelart' }
+    //{ translationKey: 'APPS.TERRARIA-PIXELART', path: '/terraria-pixelart' }
   ];
   mobileDisplay: boolean = false;
   mobileUa: boolean = false;
